@@ -313,7 +313,7 @@
 
     // Pre-defined assignments with updated statuses as requested
     const initialAssignments = [
-      { name: "Assignment 1", url: "https://docs.google.com/document/d/10pm-sKghQUjS3HaAZR_Gx6f7iwxB5yZ8wMoJxH4886o/edit?usp=sharing", status: "completed" },
+      { name: "Assignment 1", url: "https://ssmoon-debug.github.io/assignment-1/", status: "completed" },
       { name: "Assignment 2", url: "https://example.com/assignment2", status: "in-progress" },
       { name: "Assignment 3", url: "https://example.com/assignment3", status: "in-progress" },
       { name: "Assignment 4", url: "https://example.com/assignment4", status: "upcoming" },
