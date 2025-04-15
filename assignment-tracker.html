@@ -315,7 +315,7 @@
     const initialAssignments = [
       { name: "Identity Verification", url: "https://ssmoon-debug.github.io/assignment-1/", status: "completed" },
       { name: "CLI Dungeon Crawl", url: "https://ssmoon-debug.github.io/assignment-2/", status: "completed" },
-      { name: "Assignment 3", url: "https://example.com/assignment3", status: "in-progress" },
+      { name: "Virtual Library", url: "https://ssmoon-debug.github.io/assignment-3/", status: "completed" },
       { name: "Assignment 4", url: "https://example.com/assignment4", status: "upcoming" },
       { name: "Assignment 5", url: "https://example.com/assignment5", status: "upcoming" },
       { name: "Assignment 6", url: "https://example.com/assignment6", status: "upcoming" },
