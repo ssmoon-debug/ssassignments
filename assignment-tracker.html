@@ -217,6 +217,27 @@
       border-radius: 50%;
       margin-right: 5px;
     }
+    .button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+#crypto-tool-btn {
+  background-color: #1E6F5C;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+#crypto-tool-btn:hover {
+  background-color: #18594A;
+}
   </style>
 </head>
 <body>
@@ -260,8 +281,11 @@
       <div class="status-filter" data-status="completed">Completed</div>
     </div>
     
-    <button id="admin-btn">Enter Admin Mode</button>
-    <button id="exit-admin-btn" style="display: none;">Exit Admin Mode</button>
+    <div class="button-container">
+  <button id="admin-btn">Enter Admin Mode</button>
+  <button id="crypto-tool-btn" onclick="window.open('https://ssmoon-debug.github.io/GGCryptographytool/')">Cryptography Tool</button>
+  <button id="exit-admin-btn" style="display: none;">Exit Admin Mode</button>
+</div>
     
     <div id="admin-form" style="display: none;">
       <div class="form-group">
