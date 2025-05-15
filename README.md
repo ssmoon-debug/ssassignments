@@ -238,95 +238,9 @@
 #crypto-tool-btn:hover {
   background-color: #18594A;
 }
-  
-    /* Password modal styles */
-    .password-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    
-    .password-content {
-      background-color: #FAF3E0;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-    
-    .password-title {
-      color: #1E6F5C;
-      font-size: 1.5em;
-      margin-bottom: 20px;
-    }
-    
-    .password-input {
-      width: 100%;
-      padding: 12px;
-      margin: 15px 0;
-      border-radius: 8px;
-      border: 2px solid #B5D3C3;
-      font-size: 1em;
-      text-align: center;
-      transition: border-color 0.3s;
-    }
-    
-    .password-input:focus {
-      border-color: #1E6F5C;
-      outline: none;
-    }
-    
-    .password-button {
-      background-color: #1E6F5C;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      font-weight: bold;
-      margin-top: 10px;
-    }
-    
-    .password-button:hover {
-      background-color: #18594A;
-    }
-    
-    .password-error {
-      color: #e74c3c;
-      margin-top: 10px;
-      font-size: 0.9em;
-      visibility: hidden;
-    }
-    
-    .content-hidden {
-      display: none;
-    }
-  </style>
+</style>
 </head>
 <body>
-  <!-- Password Modal -->
-  <div id="password-modal" class="password-modal">
-    <div class="password-content">
-      <div class="password-title">MAGIC WORDS</div>
-      <input type="password" id="password-input" class="password-input" placeholder="Enter magic words...">
-      <p id="password-error" class="password-error">ahaaaaa not the correct magic words</p>
-      <button id="password-submit" class="password-button">Enter</button>
-    </div>
-  </div>
-
-  <!-- Site Content - Initially Hidden -->
-  <div id="site-content" class="content-hidden">
   <header>
     Sanjina's Assignments 🐾<br>
     <div class="university-id">2417503 - Dong-A University</div>
