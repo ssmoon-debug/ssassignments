@@ -343,7 +343,7 @@
       { name: "Virtual Library", url: "https://ssmoon-debug.github.io/assignment-3/", status: "completed" },
       { name: "Assignment 4", url: "https://example.com/assignment4", status: "in-progress" },
       { name: "Cryptography Project", url: "https://ssmoon-debug.github.io/Cryptography/", status: "completed" },
-      { name: "Assignment 6", url: "https://example.com/assignment6", status: "upcoming" },
+      { name: "HIF-Lumen", url: "https://ssmoon-debug.github.io/HIF-Lumen/", status: "completed" },
       { name: "Assignment 7", url: "https://example.com/assignment7", status: "upcoming" },
       { name: "Assignment 8", url: "https://example.com/assignment8", status: "upcoming" },
       { name: "Assignment 9", url: "https://example.com/assignment9", status: "upcoming" },
