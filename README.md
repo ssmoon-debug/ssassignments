@@ -345,7 +345,7 @@
       { name: "Identity Verification", url: "https://ssmoon-debug.github.io/assignment-1/", status: "completed" },
       { name: "CLI Dungeon Crawl", url: "https://ssmoon-debug.github.io/assignment-2/", status: "completed" },
       { name: "Virtual Library", url: "https://ssmoon-debug.github.io/assignment-3/", status: "completed" },
-      { name: "Assignment 4", url: "https://example.com/assignment4", status: "in-progress" },
+      { name: "Apps Script", url: "https://ssmoon-debug.github.io/AppScript/", status: "completed" },
       { name: "Cryptography Project", url: "https://ssmoon-debug.github.io/Cryptography/", status: "completed" },
       { name: "HIF-Lumen", url: "https://ssmoon-debug.github.io/HIF-Lumen/", status: "completed" },
       { name: "Assignment 7", url: "https://example.com/assignment7", status: "upcoming" },
