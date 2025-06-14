@@ -348,7 +348,7 @@
       { name: "Apps Script", url: "https://ssmoon-debug.github.io/AppScript/", status: "completed" },
       { name: "Cryptography Project", url: "https://ssmoon-debug.github.io/Cryptography/", status: "completed" },
       { name: "HIF-Lumen", url: "https://ssmoon-debug.github.io/HIF-Lumen/", status: "completed" },
-      { name: "Assignment 7", url: "https://example.com/assignment7", status: "upcoming" },
+      { name: "Personal Project", url: "final.html", status: "completed" },
       { name: "Tutor De IA", url: "spanish_learning_website.html", status: "completed" },
       { name: "Assignment 9", url: "https://example.com/assignment9", status: "upcoming" },
       { name: "Assignment 10", url: "https://example.com/assignment10", status: "upcoming" }
