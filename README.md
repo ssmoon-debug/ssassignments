@@ -348,8 +348,8 @@
       { name: "Apps Script", url: "my assignments/index (9).html", status: "completed" },
       { name: "Cryptography Project", url: "my assignments/cpd2.html", status: "completed" },
       { name: "HIF-Lumen", url: "my assignments/lumen.html", status: "completed" },
-      { name: "Personal Project", url: "final.html", status: "completed" },
-      { name: "Tutor De IA", url: "spanish_learning_website.html", status: "completed" },
+      { name: "Personal Project", url: "my assignments/final.html", status: "completed" },
+      { name: "Tutor De IA", url: "my assignments/spanish_learning_website.html", status: "completed" },
       { name: "Assignment 9", url: "https://example.com/assignment9", status: "upcoming" },
       { name: "Assignment 10", url: "https://example.com/assignment10", status: "upcoming" }
     ];
