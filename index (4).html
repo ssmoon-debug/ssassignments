@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GG's Encrypt & Decrypt Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: radial-gradient(ellipse at bottom, #0d0d1a 0%, #000010 100%);
+      --text-color: #e0e7ff;
+      --title-color: #c2f0ff;
+      --input-bg: #1a1a2e;
+      --input-border: #4a5568;
+      --button-bg: #4dd0e1;
+      --button-hover: #00bcd4;
+      --output-border: #88ccff;
+      --history-bg: rgba(26, 32, 44, 0.8);
+      --history-border: #4a5568;
+      --history-hover: rgba(74, 85, 104, 0.2);
+      --history-operation-bg: #2d3748;
+      --history-text: #cbd5e0;
+    }
+
+    body.light-theme {
+      --bg-color: linear-gradient(to bottom, #f0f4f8 0%, #d9e2ec 100%);
+      --text-color: #334155;
+      --title-color: #0f172a;
+      --input-bg: #ffffff;
+      --input-border: #cbd5e0;
+      --button-bg: #0ea5e9;
+      --button-hover: #0284c7;
+      --output-border: #0ea5e9;
+      --history-bg: rgba(241, 245, 249, 0.9);
+      --history-border: #cbd5e0;
+      --history-hover: rgba(226, 232, 240, 0.7);
+      --history-operation-bg: #e2e8f0;
+      --history-text: #475569;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px;
+      overflow-x: hidden;
+      position: relative;
+      margin: 0;
+      transition: all 0.3s ease;
+    }
+    
+    #theme-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+    }
+    
+    #themeSelect {
+      width: auto;
+      padding: 8px;
+      margin: 0;
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 30px;
+      padding-top: 20px;
+      color: var(--title-color);
+      text-shadow: 0 0 10px #88ccff, 0 0 20px #88ccff;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    label, select, textarea, input, button {
+      display: block;
+      width: 100%;
+      margin: 15px 0;
+      padding: 15px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: 1px solid var(--input-border);
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      box-shadow: 0 0 5px var(--input-border);
+      transition: all 0.3s ease;
+    }
+    
+    input[type="file"] {
+      padding: 10px;
+      background-color: var(--input-bg);
+    }
+    
+    button {
+      background-color: var(--button-bg);
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      margin: 20px 0;
+    }
+    
+    button:hover {
+      background-color: var(--button-hover);
+      box-shadow: 0 0 10px var(--button-hover);
+    }
+    
+    #output {
+      white-space: pre-wrap;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      margin: 20px 0;
+      border: 1px dashed var(--output-border);
+      border-radius: 8px;
+      color: var(--text-color);
+      min-height: 100px;
+    }
+    
+    .star {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: #00bcd4;
+      border-radius: 50%;
+      animation: sparkle 1.5s ease-in-out infinite;
+      opacity: 0;
+      box-shadow: 0 0 8px 3px #00bcd4;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    body.light-theme .star {
+      background: #4a5568;
+      box-shadow: 0 0 8px 3px rgba(74, 85, 104, 0.7);
+    }
+    
+    body.light-theme .star.blue {
+      background: #3b82f6;
+      box-shadow: 0 0 8px 3px rgba(59, 130, 246, 0.7);
+    }
+    
+    body.light-theme .star.gold {
+      background: #eab308;
+      box-shadow: 0 0 8px 3px rgba(234, 179, 8, 0.7);
+    }
+    
+    body.light-theme .star.red {
+      background: #ef4444;
+      box-shadow: 0 0 8px 3px rgba(239, 68, 68, 0.7);
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.8; transform: scale(1.5); }
+    }
+    
+    /* History feature styles */
+    #historyContainer {
+      margin-top: 40px;
+      background: var(--history-bg);
+      border-radius: 8px;
+      padding: 20px;
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid var(--history-border);
+    }
+    
+    .history-item {
+      border-bottom: 1px solid var(--history-border);
+      padding: 15px 0;
+      margin-bottom: 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .history-item:hover {
+      background-color: var(--history-hover);
+    }
+    
+    .history-item-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    
+    .history-algorithm {
+      color: var(--button-bg);
+      font-weight: bold;
+    }
+    
+    .history-time {
+      color: var(--history-text);
+      font-size: 0.9em;
+    }
+    
+    .history-operation {
+      background-color: var(--history-operation-bg);
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 4px;
+      margin-right: 10px;
+      font-size: 0.9em;
+    }
+    
+    .history-preview {
+      color: var(--history-text);
+      font-size: 0.9em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .history-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .history-buttons button {
+      padding: 8px;
+      font-size: 0.8em;
+      width: auto;
+      margin: 5px 0;
+    }
+    
+    .history-toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+    }
+    
+    #historyToggleBtn {
+      width: auto;
+      padding: 8px 15px;
+    }
+    
+    .history-count {
+      background-color: var(--history-operation-bg);
+      padding: 5px 10px;
+      border-radius: 10px;
+      font-size: 0.9em;
+    }
+    
+    /* Animation for history panel */
+    .slide-in {
+      animation: slideIn 0.3s forwards;
+    }
+    
+    .slide-out {
+      animation: slideOut 0.3s forwards;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+      from { transform: translateY(0); opacity: 1; }
+      to { transform: translateY(-20px); opacity: 0; }
+    }
+    
+    .glow-input {
+      box-shadow: 0 0 10px var(--button-hover) !important;
+      border-color: var(--button-hover) !important;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .action-buttons button {
+      flex: 1;
+    }
+    
+    h3 {
+      margin-top: 30px;
+    }
+    
+    /* Educational Enhancement Styles */
+    .education-nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .edu-btn {
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: all 0.3s;
+      width: auto;
+      margin: 5px 0;
+    }
+    
+    .edu-btn:hover {
+      background-color: var(--button-hover);
+      transform: translateY(-2px);
+    }
+    
+    .close-btn {
+      background-color: #e53e3e;
+    }
+    
+    .close-btn:hover {
+      background-color: #c53030;
+    }
+    
+    .education-panel {
+      background: var(--history-bg);
+      border: 1px solid var(--history-border);
+      border-radius: 12px;
+      padding: 25px;
+      margin: 20px 0;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .edu-content {
+      display: none;
+    }
+    
+    .edu-content.active {
+      display: block;
+    }
+    
+    .algorithm-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .algo-card {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+    
+    .algo-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .algo-card h4 {
+      color: var(--title-color);
+      margin-bottom: 10px;
+    }
+    
+    .security-level {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    
+    .security-level.low {
+      background-color: #fed7d7;
+      color: #c53030;
+    }
+    
+    .security-level.medium {
+      background-color: #fefcbf;
+      color: #d69e2e;
+    }
+    
+    .security-level.high {
+      background-color: #c6f6d5;
+      color: #38a169;
+    }
+    
+    body.light-theme .security-level.low {
+      background-color: #fee2e2;
+      color: #dc2626;
+    }
+    
+    body.light-theme .security-level.medium {
+      background-color: #fef3c7;
+      color: #d97706;
+    }
+    
+    body.light-theme .security-level.high {
+      background-color: #dcfce7;
+      color: #16a34a;
+    }
+    
+    .tips-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .tip-card {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    
+    .tip-card h4 {
+      color: var(--button-bg);
+      margin-bottom: 15px;
+    }
+    
+    .tip-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .tip-card li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--input-border);
+    }
+    
+    .tip-card li:last-child {
+      border-bottom: none;
+    }
+    
+    /* Quiz Styles */
+    .quiz-question {
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 20px;
+    }
+    
+    .quiz-options {
+      margin: 20px 0;
+    }
+    
+    .quiz-option {
+      background: var(--history-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 6px;
+      padding: 12px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .quiz-option:hover {
+      background: var(--history-hover);
+      border-color: var(--button-bg);
+    }
+    
+    .quiz-option.selected {
+      background: var(--button-bg);
+      color: white;
+      border-color: var(--button-bg);
+    }
+    
+    .quiz-option.correct {
+      background: #38a169;
+      color: white;
+      border-color: #38a169;
+    }
+    
+    .quiz-option.incorrect {
+      background: #e53e3e;
+      color: white;
+      border-color: #e53e3e;
+    }
+    
+    .quiz-controls {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .quiz-btn {
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: auto;
+      margin: 0;
+    }
+    
+    .quiz-btn:hover {
+      background-color: var(--button-hover);
+    }
+    
+    .quiz-results {
+      text-align: center;
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="theme-container">
+    <select id="themeSelect" onchange="changeTheme(this.value)">
+      <option value="dark">Dark Theme</option>
+      <option value="light">Light Theme</option>
+    </select>
+  </div>
+  
+  <div class="container">
+    <h1>🌌 GG's Encrypt and Decrypt Tool</h1>
+    
+    <!-- Educational Navigation -->
+    <div class="education-nav">
+      <button onclick="showEducationPanel('algorithms')" class="edu-btn">Algorithm Info</button>
+      <button onclick="showEducationPanel('tips')" class="edu-btn">Tips & Best Practices</button>
+      <button onclick="showEducationPanel('quiz')" class="edu-btn">Quiz Mode</button>
+      <button onclick="hideEducationPanel()" class="edu-btn close-btn">Close Info</button>
+    </div>
+    
+    <!-- Educational Panels -->
+    <div id="educationPanel" class="education-panel" style="display: none;">
+      <div id="algorithmsInfo" class="edu-content">
+        <h3>🔐 Algorithm Information</h3>
+        <div class="algorithm-cards">
+          <div class="algo-card">
+            <h4>Caesar Cipher</h4>
+            <div class="security-level low">Security: Low</div>
+            <p><strong>How it works:</strong> Shifts each letter by a fixed number of positions in the alphabet.</p>
+            <p><strong>History:</strong> Named after Julius Caesar who used it for military communications.</p>
+            <p><strong>Vulnerability:</strong> Easily broken with frequency analysis or brute force (only 25 possible keys).</p>
+          </div>
+          
+          <div class="algo-card">
+            <h4>Atbash Cipher</h4>
+            <div class="security-level low">Security: Low</div>
+            <p><strong>How it works:</strong> Replaces each letter with its opposite in the alphabet (A↔Z, B↔Y, etc.).</p>
+            <p><strong>History:</strong> Ancient Hebrew cipher used in the Bible, over 2500 years old.</p>
+            <p><strong>Vulnerability:</strong> No key needed, easily reversible with simple substitution.</p>
+          </div>
+          
+          <div class="algo-card">
+            <h4>Vigenère Cipher</h4>
+            <div class="security-level medium">Security: Medium</div>
+            <p><strong>How it works:</strong> Uses a keyword to shift letters by different amounts.</p>
+            <p><strong>History:</strong> Developed in 1553, called "the indecipherable cipher" for 300 years.</p>
+            <p><strong>Vulnerability:</strong> Vulnerable to frequency analysis with long texts.</p>
+          </div>
+          
+          <div class="algo-card">
+            <h4>XOR Cipher</h4>
+            <div class="security-level medium">Security: Medium</div>
+            <p><strong>How it works:</strong> Performs XOR operation between text and key bytes.</p>
+            <p><strong>History:</strong> Based on binary operations, used in modern computing.</p>
+            <p><strong>Vulnerability:</strong> Strong if key is random and as long as message, weak otherwise.</p>
+          </div>
+          
+          <div class="algo-card">
+            <h4>Simplified AES</h4>
+            <div class="security-level high">Security: High</div>
+            <p><strong>How it works:</strong> Complex mathematical transformations (this is a simplified version).</p>
+            <p><strong>History:</strong> Advanced Encryption Standard, adopted by US government in 2001.</p>
+            <p><strong>Vulnerability:</strong> Currently considered unbreakable with proper implementation.</p>
+          </div>
+          
+          <div class="algo-card">
+            <h4>Simplified RSA</h4>
+            <div class="security-level high">Security: High</div>
+            <p><strong>How it works:</strong> Uses mathematical properties of large prime numbers (simplified here).</p>
+            <p><strong>History:</strong> Invented in 1977, revolutionized public-key cryptography.</p>
+            <p><strong>Vulnerability:</strong> Security depends on difficulty of factoring large numbers.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="tipsInfo" class="edu-content">
+        <h3>💡 Tips & Best Practices</h3>
+        <div class="tips-section">
+          <div class="tip-card">
+            <h4>🔑 Choosing Strong Keys</h4>
+            <ul>
+              <li>Use random, unpredictable keys</li>
+              <li>Longer keys are generally more secure</li>
+              <li>Avoid dictionary words or personal information</li>
+              <li>Use a mix of letters, numbers, and symbols when possible</li>
+            </ul>
+          </div>
+          
+          <div class="tip-card">
+            <h4>🛡️ When to Use Each Algorithm</h4>
+            <ul>
+              <li><strong>Caesar/Atbash:</strong> Educational purposes only, not for real security</li>
+              <li><strong>Vigenère:</strong> Historical interest, puzzles, or basic obfuscation</li>
+              <li><strong>XOR:</strong> Simple encryption when combined with strong keys</li>
+              <li><strong>AES:</strong> Professional applications requiring strong security</li>
+              <li><strong>RSA:</strong> Secure communication between parties without shared keys</li>
+            </ul>
+          </div>
+          
+          <div class="tip-card">
+            <h4>⚠️ Common Mistakes to Avoid</h4>
+            <ul>
+              <li>Never reuse keys for multiple messages</li>
+              <li>Don't share keys through insecure channels</li>
+              <li>Avoid using weak algorithms for sensitive data</li>
+              <li>Remember that encryption is only as strong as your key management</li>
+            </ul>
+          </div>
+          
+          <div class="tip-card">
+            <h4>🎯 Security Mindset</h4>
+            <ul>
+              <li>Assume your encryption method is known to attackers</li>
+              <li>Security through obscurity is not real security</li>
+              <li>Test your encrypted messages - can you break them?</li>
+              <li>Keep learning about new attacks and defenses</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div id="quizInfo" class="edu-content">
+        <h3>🧠 Cryptography Quiz</h3>
+        <div id="quizContainer">
+          <div id="quizQuestion" class="quiz-question">
+            <h4 id="questionText">Loading question...</h4>
+            <div id="quizOptions" class="quiz-options">
+              <!-- Options will be populated by JavaScript -->
+            </div>
+            <div class="quiz-controls">
+              <button onclick="checkAnswer()" id="submitBtn" class="quiz-btn">Submit Answer</button>
+              <button onclick="nextQuestion()" id="nextBtn" class="quiz-btn" style="display: none;">Next Question</button>
+            </div>
+          </div>
+          <div id="quizResults" class="quiz-results">
+            <p>Score: <span id="quizScore">0</span> / <span id="totalQuestions">0</span></p>
+            <button onclick="restartQuiz()" class="quiz-btn">Restart Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <label for="algorithmSelect">Choose an Algorithm:</label>
+    <select id="algorithmSelect">
+      <option value="caesar">Caesar Cipher</option>
+      <option value="atbash">Atbash Cipher</option>
+      <option value="vigenere">Vigenère Cipher</option>
+      <option value="xor">XOR Cipher</option>
+      <option value="aes">Simplified AES</option>
+      <option value="rsa">Simplified RSA</option>
+    </select>
+  
+    <div id="textInputArea">
+      <label for="inputText">Enter your text:</label>
+      <textarea id="inputText" rows="6" placeholder="Enter your text here..."></textarea>
+  
+      <div id="fileInputArea">
+        <label for="uploadFileInput">Upload a .txt file (optional):</label>
+        <input type="file" id="uploadFileInput" accept=".txt" onchange="handleFileUpload(event)">
+      </div>
+    </div>
+  
+    <div class="action-buttons">
+      <button onclick="handleEncrypt()">Encrypt</button>
+      <button onclick="handleDecrypt()">Decrypt</button>
+    </div>
+  
+    <h3>Output:</h3>
+    <div id="output"></div>
+    <button onclick="downloadOutput()">Download Result</button>
+  
+    <!-- History Feature UI -->
+    <div class="history-toggle">
+      <h3>History</h3>
+      <span class="history-count" id="historyCount">0 items</span>
+      <button id="historyToggleBtn" onclick="toggleHistory()">Show History</button>
+    </div>
+    
+    <div id="historyContainer" style="display: none;">
+      <div id="historyList">
+        <!-- History items will be populated here -->
+      </div>
+      <button onclick="clearHistory()" style="margin-top: 20px; background-color: #e53e3e;">Clear History</button>
+    </div>
+  </div>
+
+  <script>
+    // Initialize history array from localStorage or create empty array
+    let operationHistory = JSON.parse(localStorage.getItem('encryptionHistory')) || [];
+    
+    // Quiz variables
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let selectedAnswer = null;
+    let quizQuestions = [
+      {
+        question: "Which cipher was used by Julius Caesar for military communications?",
+        options: ["Atbash Cipher", "Caesar Cipher", "Vigenère Cipher", "XOR Cipher"],
+        correct: 1
+      },
+      {
+        question: "What makes the Vigenère cipher stronger than the Caesar cipher?",
+        options: ["It uses numbers", "It uses a keyword", "It's faster", "It's older"],
+        correct: 1
+      },
+      {
+        question: "Which cipher replaces each letter with its opposite in the alphabet?",
+        options: ["Caesar", "Atbash", "Vigenère", "AES"],
+        correct: 1
+      },
+      {
+        question: "What does XOR stand for in cryptography?",
+        options: ["eXtra OR", "eXclusive OR", "eXtended OR", "eXternal OR"],
+        correct: 1
+      },
+      {
+        question: "Which algorithm is currently used by the US government as a standard?",
+        options: ["Caesar", "Vigenère", "AES", "Atbash"],
+        correct: 2
+      },
+      {
+        question: "What's the main vulnerability of the Caesar cipher?",
+        options: ["It's too slow", "Only 25 possible keys", "It requires a computer", "It's too new"],
+        correct: 1
+      },
+      {
+        question: "RSA encryption is based on the mathematical difficulty of:",
+        options: ["Adding large numbers", "Factoring large numbers", "Dividing by zero", "Square roots"],
+        correct: 1
+      },
+      {
+        question: "What's the most important rule for key security?",
+        options: ["Use short keys", "Reuse keys often", "Never share keys insecurely", "Use dictionary words"],
+        correct: 2
+      }
+    ];
+    
+    // Check for saved theme preference
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      document.getElementById('themeSelect').value = savedTheme;
+      if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+      }
+      updateHistoryCount();
+    });
+    
+    // Educational Panel Functions
+    function showEducationPanel(type) {
+      const panel = document.getElementById('educationPanel');
+      const contents = panel.querySelectorAll('.edu-content');
+      
+      // Hide all content sections
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Show selected content
+      const targetContent = document.getElementById(type + 'Info');
+      if (targetContent) {
+        targetContent.classList.add('active');
+      }
+      
+      // Show panel
+      panel.style.display = 'block';
+      panel.scrollIntoView({ behavior: 'smooth' });
+      
+      // Initialize quiz if quiz mode is selected
+      if (type === 'quiz') {
+        setTimeout(() => {
+          resetQuiz();
+          loadQuestion();
+        }, 100);
+      }
+    }
+    
+    function hideEducationPanel() {
+      document.getElementById('educationPanel').style.display = 'none';
+    }
+    
+    // Quiz Functions
+    function resetQuiz() {
+      currentQuestionIndex = 0;
+      score = 0;
+      selectedAnswer = null;
+      document.getElementById('quizScore').textContent = '0';
+      document.getElementById('totalQuestions').textContent = quizQuestions.length.toString();
+    }
+    
+    function loadQuestion() {
+      const questionContainer = document.getElementById('quizQuestion');
+      const resultsContainer = document.getElementById('quizResults');
+      
+      if (currentQuestionIndex >= quizQuestions.length) {
+        showQuizResults();
+        return;
+      }
+      
+      // Show question container, hide results
+      questionContainer.style.display = 'block';
+      resultsContainer.style.display = 'none';
+      
+      const question = quizQuestions[currentQuestionIndex];
+      const questionText = document.getElementById('questionText');
+      const optionsContainer = document.getElementById('quizOptions');
+      
+      if (questionText && optionsContainer) {
+        questionText.textContent = `Question ${currentQuestionIndex + 1}: ${question.question}`;
+        
+        optionsContainer.innerHTML = '';
+        
+        question.options.forEach((option, index) => {
+          const optionDiv = document.createElement('div');
+          optionDiv.className = 'quiz-option';
+          optionDiv.textContent = option;
+          optionDiv.onclick = () => selectAnswer(index, optionDiv);
+          optionsContainer.appendChild(optionDiv);
+        });
+        
+        const submitBtn = document.getElementById('submitBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        if (submitBtn) submitBtn.style.display = 'inline-block';
+        if (nextBtn) nextBtn.style.display = 'none';
+        
+        selectedAnswer = null;
+      }
+    }
+    
+    function selectAnswer(index, element) {
+      // Remove previous selections
+      document.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+      
+      // Mark current selection
+      element.classList.add('selected');
+      selectedAnswer = index;
+    }
+    
+    function checkAnswer() {
+      if (selectedAnswer === null) {
+        alert('Please select an answer first!');
+        return;
+      }
+      
+      const question = quizQuestions[currentQuestionIndex];
+      const options = document.querySelectorAll('.quiz-option');
+      
+      // Show correct/incorrect answers
+      options.forEach((option, index) => {
+        option.classList.remove('selected');
+        if (index === question.correct) {
+          option.classList.add('correct');
+        } else if (index === selectedAnswer && index !== question.correct) {
+          option.classList.add('incorrect');
+        }
+        option.onclick = null; // Disable further clicks
+      });
+      
+      // Update score
+      if (selectedAnswer === question.correct) {
+        score++;
+      }
+      
+      // Show next button
+      const submitBtn = document.getElementById('submitBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      if (submitBtn) submitBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'inline-block';
+      
+      // Update score display
+      const scoreElement = document.getElementById('quizScore');
+      const totalElement = document.getElementById('totalQuestions');
+      
+      if (scoreElement) scoreElement.textContent = score.toString();
+      if (totalElement) totalElement.textContent = quizQuestions.length.toString();
+    }
+    
+    function nextQuestion() {
+      currentQuestionIndex++;
+      loadQuestion();
+    }
+    
+    function showQuizResults() {
+      const questionContainer = document.getElementById('quizQuestion');
+      const resultsContainer = document.getElementById('quizResults');
+      
+      questionContainer.style.display = 'none';
+      resultsContainer.style.display = 'block';
+      
+      const percentage = Math.round((score / quizQuestions.length) * 100);
+      let message = '';
+      
+      if (percentage >= 80) {
+        message = '🎉 Excellent! You\'re a crypto expert!';
+      } else if (percentage >= 60) {
+        message = '👍 Good job! Keep learning!';
+      } else {
+        message = '📚 Keep studying - you can do better!';
+      }
+      
+      resultsContainer.innerHTML = `
+        <h4>${message}</h4>
+        <div style="text-align: center; font-size: 1.2em; margin: 20px 0;">
+          <p>Final Score: ${score}/${quizQuestions.length} (${percentage}%)</p>
+        </div>
+        <button onclick="restartQuiz()" class="quiz-btn">Restart Quiz</button>
+      `;
+    }
+    
+    function restartQuiz() {
+      resetQuiz();
+      loadQuestion();
+    }
+    
+    // Theme Change Function
+    function changeTheme(theme) {
+      if (theme === 'light') {
+        document.body.classList.add('light-theme');
+      } else {
+        document.body.classList.remove('light-theme');
+      }
+      localStorage.setItem('theme', theme);
+    }
+    
+    // Update history count badge
+    function updateHistoryCount() {
+      document.getElementById('historyCount').textContent = `${operationHistory.length} items`;
+    }
+    
+    function handleEncrypt() {
+      clearVisuals();
+      addStars(30);
+      process('encrypt');
+    }
+
+    function handleDecrypt() {
+      clearVisuals();
+      addStars(60);
+      process('decrypt');
+    }
+
+    function process(mode) {
+      const algorithm = document.getElementById('algorithmSelect').value;
+      const inputText = document.getElementById('inputText').value;
+
+      if (!inputText.trim()) {
+        document.getElementById('output').textContent = "Please enter some text to process.";
+        return;
+      }
+
+      let result = '';
+      switch (algorithm) {
+        case 'caesar': result = caesarCipher(inputText, mode === 'encrypt' ? 3 : -3); break;
+        case 'atbash': result = atbashCipher(inputText); break;
+        case 'vigenere': result = vigenereCipher(inputText, 'KEY', mode === 'encrypt'); break;
+        case 'xor': result = xorCipher(inputText, 'K'); break;
+        case 'aes': result = aesCipher(inputText, 'SIMPLEKEY', mode === 'encrypt'); break;
+        case 'rsa': result = rsaCipher(inputText, mode === 'encrypt'); break;
+        default: result = '[Unsupported algorithm]';
+      }
+      
+      document.getElementById('output').textContent = result;
+      
+      // Add to history
+      addToHistory(algorithm, mode, inputText, result);
+    }
+
+    function caesarCipher(str, shift) {
+      return str.split('').map(char => {
+        const code = char.charCodeAt(0);
+        if (char >= 'a' && char <= 'z')
+          return String.fromCharCode(((code - 97 + shift + 26) % 26) + 97);
+        if (char >= 'A' && char <= 'Z')
+          return String.fromCharCode(((code - 65 + shift + 26) % 26) + 65);
+        return char;
+      }).join('');
+    }
+
+    function atbashCipher(str) {
+      return str.split('').map(char => {
+        if (char >= 'a' && char <= 'z')
+          return String.fromCharCode(122 - (char.charCodeAt(0) - 97));
+        if (char >= 'A' && char <= 'Z')
+          return String.fromCharCode(90 - (char.charCodeAt(0) - 65));
+        return char;
+      }).join('');
+    }
+
+    function vigenereCipher(text, key, encrypt = true) {
+      let result = '';
+      key = key.toUpperCase();
+      let keyIndex = 0;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const isUpper = char >= 'A' && char <= 'Z';
+        const isLower = char >= 'a' && char <= 'z';
+
+        if (isUpper || isLower) {
+          const base = isUpper ? 65 : 97;
+          const keyChar = key[keyIndex % key.length];
+          const shift = keyChar.charCodeAt(0) - 65;
+          const charCode = char.charCodeAt(0) - base;
+          const newChar = encrypt
+            ? (charCode + shift) % 26
+            : (charCode - shift + 26) % 26;
+          result += String.fromCharCode(newChar + base);
+          keyIndex++;
+        } else {
+          result += char;
+        }
+      }
+      return result;
+    }
+
+    function xorCipher(text, key) {
+      return text.split('').map((char, i) =>
+        String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length))
+      ).join('');
+    }
+
+    function aesCipher(text, key, encrypt = true) {
+      const shift = encrypt ? key.length : -key.length;
+      return text.split('').map(char =>
+        String.fromCharCode(char.charCodeAt(0) + shift)
+      ).join('');
+    }
+
+    function rsaCipher(text, encrypt = true) {
+      return text.split('').map(char => {
+        const code = char.charCodeAt(0);
+        return encrypt
+          ? String.fromCharCode((code * code) % 256)
+          : String.fromCharCode(Math.round(Math.sqrt(code)));
+      }).join('');
+    }
+
+    function downloadOutput() {
+      const blob = new Blob([document.getElementById('output').textContent], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'result.txt';
+      link.click();
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('inputText').value = e.target.result;
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    function addStars(count) {
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        
+        // Add random color classes only in light theme
+        if (document.body.classList.contains('light-theme')) {
+          const colors = ['blue', 'gold', 'red', ''];
+          const randomColor = colors[Math.floor(Math.random() * colors.length)];
+          if (randomColor) {
+            star.classList.add(randomColor);
+          }
+        }
+        
+        star.style.top = Math.random() * window.innerHeight + 'px';
+        star.style.left = Math.random() * window.innerWidth + 'px';
+        
+        // Random size variation for stars
+        const size = 2 + Math.random() * 3;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        
+        // Random delay for more natural twinkling
+        star.style.animationDelay = (Math.random() * 0.8) + 's';
+        
+        // Random animation duration
+        star.style.animationDuration = (1 + Math.random() * 1) + 's';
+        
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 2000);
+      }
+    }
+
+    function clearVisuals() {
+      document.querySelectorAll('.star').forEach(el => el.remove());
+    }
+    
+    // History Functions
+    function addToHistory(algorithm, operation, inputText, result) {
+      const historyItem = {
+        id: Date.now(),
+        timestamp: new Date().toLocaleString(),
+        algorithm: algorithm,
+        operation: operation,
+        input: inputText,
+        output: result
+      };
+      
+      // Add to beginning of array (newest first)
+      operationHistory.unshift(historyItem);
+      
+      // Limit history to 50 items
+      if (operationHistory.length > 50) {
+        operationHistory = operationHistory.slice(0, 50);
+      }
+      
+      // Save to localStorage
+      localStorage.setItem('encryptionHistory', JSON.stringify(operationHistory));
+      
+      // Update UI
+      updateHistoryCount();
+      renderHistory();
+    }
+    
+    function renderHistory() {
+      const historyList = document.getElementById('historyList');
+      historyList.innerHTML = '';
+      
+      if (operationHistory.length === 0) {
+        historyList.innerHTML = '<p>No history yet. Encrypt or decrypt some text to see your history.</p>';
+        return;
+      }
+      
+      operationHistory.forEach(item => {
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        historyItem.id = `history-${item.id}`;
+        
+        const operationLabel = item.operation === 'encrypt' ? 'Encrypted' : 'Decrypted';
+        
+        historyItem.innerHTML = `
+          <div class="history-item-header">
+            <span class="history-algorithm">${item.algorithm.toUpperCase()}</span>
+            <span class="history-time">${item.timestamp}</span>
+          </div>
+          <div>
+            <span class="history-operation">${operationLabel}</span>
+            <span class="history-preview">${item.input.substring(0, 30)}${item.input.length > 30 ? '...' : ''}</span>
+          </div>
+          <div class="history-buttons">
+            <button onclick="loadHistoryItem(${item.id})">Load Input</button>
+            <button onclick="loadHistoryOutput(${item.id})">Load Output</button>
+          </div>
+        `;
+        
+        historyList.appendChild(historyItem);
+      });
+    }
+    
+    function toggleHistory() {
+      const historyContainer = document.getElementById('historyContainer');
+      const toggleBtn = document.getElementById('historyToggleBtn');
+      
+      if (historyContainer.style.display === 'none') {
+        historyContainer.style.display = 'block';
+        historyContainer.classList.add('slide-in');
+        toggleBtn.textContent = 'Hide History';
+        renderHistory();
+      } else {
+        historyContainer.classList.remove('slide-in');
+        historyContainer.classList.add('slide-out');
+        setTimeout(() => {
+          historyContainer.style.display = 'none';
+          historyContainer.classList.remove('slide-out');
+        }, 300);
+        toggleBtn.textContent = 'Show History';
+      }
+    }
+    
+    function loadHistoryItem(id) {
+      const item = operationHistory.find(item => item.id === id);
+      if (item) {
+        const inputTextArea = document.getElementById('inputText');
+        inputTextArea.value = item.input;
+        
+        // Set algorithm dropdown
+        document.getElementById('algorithmSelect').value = item.algorithm;
+        
+        // Highlight input field briefly
+        inputTextArea.classList.add('glow-input');
+        setTimeout(() => {
+          inputTextArea.classList.remove('glow-input');
+        }, 1000);
+        
+        // Scroll to input area
+        inputTextArea.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    
+    function loadHistoryOutput(id) {
+      const item = operationHistory.find(item => item.id === id);
+      if (item) {
+        const inputTextArea = document.getElementById('inputText');
+        inputTextArea.value = item.output;
+        
+        // Set algorithm dropdown
+        document.getElementById('algorithmSelect').value = item.algorithm;
+        
+        // Highlight input field briefly
+        inputTextArea.classList.add('glow-input');
+        setTimeout(() => {
+          inputTextArea.classList.remove('glow-input');
+        }, 1000);
+        
+        // Scroll to input area
+        inputTextArea.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    
+    function clearHistory() {
+      if (confirm('Are you sure you want to clear your history? This cannot be undone.')) {
+        operationHistory = [];
+        localStorage.removeItem('encryptionHistory');
+        updateHistoryCount();
+        renderHistory();
+      }
+    }
+  </script>
+</body>
+</html>
