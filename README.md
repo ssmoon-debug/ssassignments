@@ -245,7 +245,7 @@
     Sanjina's Assignments 🐾<br>
     <div class="university-id">2417503 - Dong-A University</div>
     <img src="https://upload.wikimedia.org/wikipedia/en/5/53/Snoopy_Peanuts.png" alt="Snoopy" />
-    <div style="font-size: 0.5em; color: #1E6F5C; text-decoration: underline; cursor: pointer; margin-top: 5px;" onclick="window.open('grades.html', '_blank')">
+    <div style="font-size: 0.5em; color: #1E6F5C; text-decoration: underline; cursor: pointer; margin-top: 5px;" onclick="window.open('my tools/grades.html', '_blank')">
   View Grades
 </div>
 
