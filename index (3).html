@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Database Report</title>
+    <style>
+        body {
+            font-family: "Calibri", sans-serif;
+            background-color: #F5F0E6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #FFF;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border: 3px solid #7B5C3F;
+        }
+        h1, h2, h3 {
+            color: #A0522D;
+            border-bottom: 2px dotted #7B5C3F;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-top: 10px;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 1.3em;
+            border-bottom: 1px dotted #7B5C3F;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #FBF8F1;
+            border: 2px solid #7B5C3F;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #7B5C3F;
+        }
+        th {
+            background-color: #AA9178;
+            color: #FFF;
+        }
+        tr:nth-child(even) {
+            background-color: #F5EFE6;
+        }
+        .button {
+            display: inline-block;
+            background-color: #7B5C3F;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 0;
+            border: 2px solid #5D4428;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+            background-color: #8D6E4F;
+        }
+        .highlight {
+            background-color: #DFC8A9;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #F5EFE6;
+            border-radius: 5px;
+            border-left: 5px solid #7B5C3F;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            background-color: #F5EFE6;
+            border-radius: 5px;
+            font-style: italic;
+        }
+        .signature {
+            text-align: right;
+            font-style: italic;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #7B5C3F;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-20px);}
+            60% {transform: translateY(-10px);}
+        }
+        .bounce {
+            animation: bounce 2s infinite;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Database Report: Structure, Queries, and Analysis</h1>
+
+        <div class="section">
+            <h2>1. CSV Data Tables</h2>
+
+            <h3>Table 1: Books (Restructured Database)</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>book_ID</th>
+                        <th>title</th>
+                        <th>author</th>
+                        <th>genre</th>
+                        <th>publication_date</th>
+                        <th>available</th>
+                        <th>user_name</th>
+                        <th>last_chekout_date</th>
+                        <th>return_date</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Pride and Prejudice</td>
+                        <td>Jane Austen</td>
+                        <td>Classics</td>
+                        <td>1813</td>
+                        <td>TRUE</td>
+                        <td>Shakhzodbek</td>
+                        <td>########</td>
+                        <td>########</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Moby Dick</td>
+                        <td>Herman Melville</td>
+                        <td>Classics</td>
+                        <td>1851</td>
+                        <td>TRUE</td>
+                        <td>HasanOsiul</td>
+                        <td>########</td>
+                        <td>4/1/2025</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1984</td>
+                        <td>George Orwell</td>
+                        <td>Classics</td>
+                        <td>1949</td>
+                        <td>FALSE</td>
+                        <td>Diana</td>
+                        <td>########</td>
+                        <td>########</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>To Kill a Mockingbird</td>
+                        <td>Harper Lee</td>
+                        <td>Classics</td>
+                        <td>1960</td>
+                        <td>TRUE</td>
+                        <td>Hasibul</td>
+                        <td>########</td>
+                        <td>4/5/2025</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>The Great Gatsby</td>
+                        <td>F. Scott Fitzgerald</td>
+                        <td>Classics</td>
+                        <td>1925</td>
+                        <td>FALSE</td>
+                        <td>Salokhiddin</td>
+                        <td>########</td>
+                        <td>########</td>
+                    </tr>
+                    <tr>
+                        <td colspan="9">...</td>
+                    </tr>
+                    <tr>
+                        <td>40</td>
+                        <td>The Time Traveler's Wife</td>
+                        <td>Audrey Niffenegger</td>
+                        <td>Romance</td>
+                        <td>2003</td>
+                        <td>TRUE</td>
+                        <td>Sanjina</td>
+                        <td>########</td>
+                        <td>########</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Table 2: Authors</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>author</th>
+                        <th>author_ID</th>
+                        <th>author_birthdate</th>
+                    </tr>
+                    <tr>
+                        <td>Jane Austen</td>
+                        <td>1</td>
+                        <td>1775/12/16</td>
+                    </tr>
+                    <tr>
+                        <td>Herman Melville</td>
+                        <td>2</td>
+                        <td>1819/08/01</td>
+                    </tr>
+                    <tr>
+                        <td>George Orwell</td>
+                        <td>3</td>
+                        <td>1903/06/25</td>
+                    </tr>
+                    <tr>
+                        <td>Harper Lee</td>
+                        <td>4</td>
+                        <td>8/10/1922</td>
+                    </tr>
+                    <tr>
+                        <td>F. Scott Fitzgerald</td>
+                        <td>5</td>
+                        <td>1896/09/24</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">...</td>
+                    </tr>
+                    <tr>
+                        <td>Audrey Niffenegger</td>
+                        <td>40</td>
+                        <td>8/10/1922</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Table 3: Reviews</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>review_ID</th>
+                        <th>book_ID</th>
+                        <th>email</th>
+                        <th>rating</th>
+                        <th>comment</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>user2217864@library.com</td>
+                        <td>4</td>
+                        <td>Well-written and engaging.</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>user2417921@library.com</td>
+                        <td>3</td>
+                        <td>Thought-provoking.</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>user2417678@library.com</td>
+                        <td>4</td>
+                        <td>A classic that never gets old.</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>4</td>
+                        <td>user2417839@library.com</td>
+                        <td>4</td>
+                        <td>Amazing read!</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>user2417956@library.com</td>
+                        <td>4</td>
+                        <td>Interesting perspective.</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5">...</td>
+                    </tr>
+                    <tr>
+                        <td>40</td>
+                        <td>40</td>
+                        <td>user3000004@library.com</td>
+                        <td>5</td>
+                        <td>Amazing read!</td>
+                    </tr>
+                </table>
+            </div>
+
+            <a href="https://drive.google.com/file/d/10iQ4lbBNrr6nvp5HAVTTYxvwNgvC3AJ-/view?usp=drive_link" class="button bounce">Successful validation of the CSVs</a>
+            
+            
+
+        <div class="section">
+            <h2>2. Database Structure Analysis and Improvements</h2>
+
+            <h3>Improving the Database Structure</h3>
+            <p>To enhance the efficiency and accuracy of the virtual library database, the following improvements were implemented:</p>
+
+            <h4>Normalization</h4>
+            <p>The data was reorganized into three interconnected tables:</p>
+            <ul>
+                <li><strong>Books</strong>: Includes details of books, loan status, and borrower information</li>
+                <li><strong>Authors</strong>: Stores unique author records with birthdates and IDs</li>
+                <li><strong>Reviews</strong>: Stores user-submitted feedback per book</li>
+            </ul>
+
+            <h4>Key Structural Improvements</h4>
+            <ol>
+                <li><strong>Author Normalization</strong>: Created a separate Authors table with unique author_ID values to prevent redundancy</li>
+                <li><strong>Review Management</strong>: Implemented a dedicated Reviews table with ratings and comments linked to specific books</li>
+                <li><strong>Loan Status Tracking</strong>: Enhanced the Books table with available status, checkout dates, and return dates</li>
+                <li><strong>Data Quality Issues</strong>: Identified placeholder values (########) that need proper formatting or validation</li>
+                <li><strong>Genre Classification</strong>: Books are categorized into clear genre groups for better organization</li>
+            </ol>
+
+            <h3>Keys and Relationships</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>Table</th>
+                        <th>Primary Key</th>
+                        <th>Foreign Keys</th>
+                    </tr>
+                    <tr>
+                        <td>Books</td>
+                        <td>book_ID</td>
+                        <td>author → Authors (linked by author name)</td>
+                    </tr>
+                    <tr>
+                        <td>Authors</td>
+                        <td>author_ID</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td>Reviews</td>
+                        <td>review_ID</td>
+                        <td>book_ID → Books</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Table 4: VIRTUAL_LIBRARY</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>book_ID</th>
+                        <th>title</th>
+                        <th>author</th>
+                        <th>genre</th>
+                        <th>publication_date</th>
+                        <th>available</th>
+                        <th>last_checkout_date</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Pride and Prejudice</td>
+                        <td>Jane Austen</td>
+                        <td>Classics</td>
+                        <td>1813</td>
+                        <td>TRUE</td>
+                        <td>3/8/2025</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Moby Dick</td>
+                        <td>Herman Melville</td>
+                        <td>Classics</td>
+                        <td>1851</td>
+                        <td>TRUE</td>
+                        <td>3/7/2025</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>1984</td>
+                        <td>George Orwell</td>
+                        <td>Classics</td>
+                        <td>1949</td>
+                        <td>FALSE</td>
+                        <td>3/7/2025</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>To Kill a Mockingbird</td>
+                        <td>Harper Lee</td>
+                        <td>Classics</td>
+                        <td>1960</td>
+                        <td>TRUE</td>
+                        <td>3/5/2025</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>The Great Gatsby</td>
+                        <td>F. Scott Fitzgerald</td>
+                        <td>Classics</td>
+                        <td>1925</td>
+                        <td>FALSE</td>
+                        <td>3/8/2025</td>
+                    </tr>
+                    <tr>
+                        <td colspan="7">...</td>
+                    </tr>
+                    <tr>
+                        <td>41</td>
+                        <td>The Alchemist</td>
+                        <td>Paulo Coelho</td>
+                        <td>World Literature / Translated Works</td>
+                        <td>1988</td>
+                        <td>FALSE</td>
+                        <td>5/3/2025</td>
+                    </tr>
+                </table>
+            </div>
+
+            <a href="https://drive.google.com/file/d/1KKObtzujaMHNuMJjyHdV0-PPfdr0YorO/view?usp=drive_link" class="button bounce">3D Virtual Library Validation</a>
+        </div>
+
+        <div class="section">
+            <h2>3. Problems I Encountered</h2>
+
+            <h3>Main Challenges</h3>
+            <p>While creating this database, I ran into a few basic issues:</p>
+            
+            <ul>
+                <li><strong>Boolean Format Problems</strong>: I used "Yes/No" instead of "TRUE/FALSE" which made the validation fail. My professor gave me a hint to explore data types and check which would fit in the available section, then I realized I needed to use proper boolean values. Once I fixed this, everything worked.</li>
+                <li><strong>Simple Naming Issues</strong>: I had "Book_ID" in one table but "book_ID" in another. This small difference broke the connections between tables.</li>
+                <li><strong>Text Encoding</strong>: Special characters like apostrophes showed up weird in the CSV files, making some book titles look messy.</li>
+            </ul>
+            
+            <p>These may seem like small problems, but they prevented the whole system from working properly until fixed!</p>
+        </div>
+
+        <div class="section">
+            <h2>4. My Virtual Library Concept</h2>
+
+            <h3>Book Knowledge Verification System</h3>
+            <p>If I owned a virtual library, I would implement a unique verification system:</p>
+            
+            <ul>
+                <li><strong>First-time customers</strong> would be exempt from verification</li>
+                <li>Returning borrowers would need to enter their name and ID at the entrance</li>
+                <li>The system would identify books they've borrowed previously</li>
+                <li>To gain entry, they would need to answer one question about a book they borrowed</li>
+                <li>If they fail to answer correctly, library access would be denied until they provide the correct answer</li>
+            </ul>
+            
+            <p>This approach would encourage readers to actually engage with the books they borrow rather than simply collecting them. It would create a community of thoughtful readers who appreciate the content of what they read!</p>
+            
+            <h3>Benefits of This System</h3>
+            <ul>
+                <li>Encourages more mindful and attentive reading</li>
+                <li>Reduces the number of books borrowed but never read</li>
+                <li>Creates a fun challenge for library users</li>
+                <li>Helps track user engagement with different types of books</li>
+                <li>Makes the virtual library experience more interactive</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>5. Questions and Queries (Excel-style)</h2>
+
+            <p>These are simple queries that can be performed on the database:</p>
+
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>Question</th>
+                        <th>Formula</th>
+                        <th>Result</th>
+                    </tr>
+                    <tr>
+                        <td>Is the book "The Great Gatsby" currently available?</td>
+                        <td>=VLOOKUP("The Great Gatsby", A2:F41, 6, FALSE)</td>
+                        <td>FALSE</td>
+                    </tr>
+                    <tr>
+                        <td>How many books are currently available?</td>
+                        <td>=COUNTIF(F2:F41, "TRUE")</td>
+                        <td>24 books</td>
+                    </tr>
+                    <tr>
+                        <td>What is the oldest book in the library?</td>
+                        <td>=MIN(E2:E41)</td>
+                        <td>-500 (The Art of War)</td>
+                    </tr>
+                    <tr>
+                        <td>How many books were written by Jane Austen?</td>
+                        <td>=COUNTIF(C2:C41, "Jane Austen")</td>
+                        <td>3 books</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>6. Recommendations for Future Database Enhancements</h2>
+
+            <ol>
+                <li><strong>User Management</strong>: Implement a proper Users table with user_ID, name, email, and contact information</li>
+                <li><strong>Checkout System</strong>: Create a dedicated Checkout table to track borrowing history</li>
+                <li><strong>Genre Standardization</strong>: Create a separate Genres table to standardize genre classifications</li>
+                <li><strong>Data Validation</strong>: Implement proper date formats and validation rules</li>
+                <li><strong>Inventory Management</strong>: Add fields for tracking book conditions, acquisitions, and replacements</li>
+            </ol>
+        </div>
+
+        <div class="section">
+            <h2>7. Possible Tables, Primary Keys (PK), and Foreign Keys (FK)</h2>
+
+            <div style="overflow-x:auto;">
+                <table>
+                    <tr>
+                        <th>Table Name</th>
+                        <th>Description</th>
+                        <th>Primary Key (PK)</th>
+                        <th>Foreign Key (FK)</th>
+                    </tr>
+                    <tr>
+                        <td>Books</td>
+                        <td>Stores book information</td>
+                        <td>book_ID</td>
+                        <td>author_ID → Authors</td>
+                    </tr>
+                    <tr>
+                        <td>Authors</td>
+                        <td>Stores author information</td>
+                        <td>author_ID</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td>Reviews</td>
+                        <td>Stores book reviews</td>
+                        <td>review_ID</td>
+                        <td>book_ID → Books</td>
+                    </tr>
+                    <tr>
+                        <td>Users</td>
+                        <td>Stores user/borrower information</td>
+                        <td>user_ID</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td>Checkouts</td>
+                        <td>Tracks book borrowing history</td>
+                        <td>checkout_ID</td>
+                        <td>book_ID → Books, user_ID → Users</td>
+                    </tr>
+                    <tr>
+                        <td>Genres</td>
+                        <td>Standardizes genre classifications</td>
+                        <td>genre_ID</td>
+                        <td>None</td>
+                    </tr>
+                </table>
+            </div>
+
+            <p>This report demonstrates how the library database has been structured to maintain data integrity while allowing efficient queries and management of the library's book collection, author information, and user reviews.</p>
+        </div>
+<section>
+  <h2>🧠 AI-Assisted Brainstorming</h2>
+  <p>Explore the AI discussions that supported my database report and design process:</p>
+  <ul>
+      <li><a href="https://chatgpt.com/share/67fec48f-6a94-8006-ab38-0b5c8135ddc3" target="_blank">ChatGPT : Discussion on ideas for the new tables</a></li>
+
+    <li><a href="https://claude.ai/share/3880d8e9-e195-4361-b326-d39b0bcfb21e" target="_blank">Claude Link 1: Discussion on DB</a></li>
+    <li><a href="https://claude.ai/share/bfe5c75b-5db4-4d6e-ba31-4d9d06967429" target="_blank">Claude Link 2: AI-assisted Planning</a></li>
+  </ul>
+</section>
+
+        <div class="footer">
+            <p>My favorite part of this project was exploring the virtual library concept. It's such a cool idea to have an online library with various books available and interactive features to encourage engagement with the material. I think virtual libraries are the future of accessible education!</p>
+            
+            <div class="signature">
+                - Sanjina
+            </div>
+        </div>
+    </div>
+</body>
+</html>
