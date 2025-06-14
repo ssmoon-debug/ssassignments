@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Detective: The Case of the Mystery Profiles</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFF8DC; /* Peanut butter cream color */
+            color: #8B4513; /* Dark brown text */
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .comic-container {
+            background-color: #FAEBD7; /* Antique white */
+            border: 8px solid #D2691E; /* Chocolate border */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 10px 10px 0px #8B4513;
+            position: relative;
+        }
+        
+        .comic-header {
+            background-color: #FFD700; /* Gold */
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #8B4513;
+            transform: rotate(-1deg);
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+        
+        h1 {
+            color: #8B4513;
+            text-transform: uppercase;
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 3px 3px 0px #FFF8DC;
+        }
+        
+        h2 {
+            background-color: #FFD700;
+            color: #8B4513;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 10px;
+            transform: rotate(-1deg);
+            margin-top: 30px;
+            box-shadow: 3px 3px 0px #8B4513;
+            border: 2px solid #8B4513;
+        }
+        
+        .author {
+            font-style: italic;
+            font-size: 1.2em;
+            text-align: right;
+            margin-top: -10px;
+        }
+        
+        .comic-panel {
+            background-color: white;
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+        
+        .panel-header {
+            background-color: #FF6347; /* Tomato */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            border: 2px solid #8B4513;
+        }
+        
+        .conclusion {
+            background-color: #90EE90; /* Light green */
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px dashed #006400; /* Dark green */
+            margin-top: 10px;
+        }
+        
+        .pow {
+            background-color: #FF6347;
+            color: white;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 50%;
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            transform: rotate(15deg);
+            border: 3px solid #8B4513;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 3px 3px 0px #8B4513;
+        }
+        
+        .peanut-icon {
+            font-size: 1.5em;
+            color: #D2691E;
+            margin: 0 5px;
+        }
+        
+        .final-panel {
+            background-color: #F0E68C; /* Khaki */
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+        
+        .speech-bubble {
+            position: relative;
+            background: #FFFFFF;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 2px solid #8B4513;
+        }
+        
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 20px solid transparent;
+            border-top-color: #FFFFFF;
+            border-bottom: 0;
+            margin-left: -20px;
+            margin-bottom: -19px;
+        }
+        
+        .speech-bubble:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 22px solid transparent;
+            border-top-color: #8B4513;
+            border-bottom: 0;
+            margin-left: -22px;
+            margin-bottom: -21px;
+        }
+        
+        .evidence-container {
+            background-color: #FFF8DC;
+            border: 2px dashed #8B4513;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .profile-link {
+            display: inline-block;
+            background-color: #0077B5; /* LinkedIn blue */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #00669E;
+            box-shadow: 3px 3px 0px #8B4513;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-link:hover {
+            background-color: #00669E;
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+        
+        .wiki-link {
+            display: inline-block;
+            background-color: #333333; /* Wikipedia dark */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #111111;
+            box-shadow: 3px 3px 0px #8B4513;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .wiki-link:hover {
+            background-color: #111111;
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+        
+        .claude-link {
+            display: inline-block;
+            background-color: #5436DA; /* Claude purple */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid #3A2491;
+            box-shadow: 3px 3px 0px #8B4513;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .claude-link:hover {
+            background-color: #3A2491;
+            transform: translateY(-3px);
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+        
+        .link-caption {
+            font-weight: bold;
+            color: #8B4513;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        
+        .making-of {
+            background-color: #FFD700; /* Gold */
+            border: 3px solid #8B4513;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 5px 5px 0px #8B4513;
+        }
+    </style>
+</head>
+<body>
+    <div class="comic-container">
+        <div class="comic-header">
+            <h1>🔍 The Identity Detective 🔍</h1>
+            <div class="author">By Sanjina Shrestha - 2417503</div>
+        </div>
+        
+        <div class="pow">POW!</div>
+        
+        <p><span class="peanut-icon">🥜</span> Welcome to my super-duper identity investigation! Today we're cracking the case on three mysterious profiles! <span class="peanut-icon">🥜</span></p>
+        
+        <div class="comic-panel">
+            <div class="panel-header">SUSPECT #1</div>
+            <h2>Pieter Mouthaan</h2>
+            <p><strong>Claims to be:</strong> Dutch developer, entrepreneur, creator of Photo AI, with a Master's in Business Administration</p>
+            
+            <div class="speech-bubble">
+                <p>I searched high and low across the internet, checked LinkedIn and AI websites, but couldn't find any definitive matches! 🕵️‍♀️</p>
+                <p>I did find a Peter Mouthaan from the Netherlands who's self-employed, but the details don't match up!</p>
+                <p>No evidence connects our mystery man to AI-generated images or self-employment in this field!</p>
+            </div>
+            
+            <div class="evidence-container">
+                <p>🔎 <strong>EVIDENCE EXHIBIT A:</strong> 🔎</p>
+                <a href="https://nl.linkedin.com/in/petermouthaan" class="profile-link" target="_blank">Check Peter Mouthaan's LinkedIn Profile</a>
+                <p class="link-caption">This profile doesn't match our suspect's claimed AI expertise or entrepreneurship!</p>
+            </div>
+            
+            <div class="conclusion">
+                <p>CONCLUSION: Identity CANNOT be verified! Pieter Mouthaan likely doesn't exist or details have been fabricated! *GASP*</p>
+            </div>
+        </div>
+        
+        <div class="comic-panel">
+            <div class="panel-header">SUSPECT #2</div>
+            <h2>Michael Moore</h2>
+            <p><strong>Claims to be:</strong> Manhattan businessman, widower for 7+ years, has a daughter in Madrid married to a doctor, twin granddaughters, and a German shepherd named Jack</p>
+            
+            <div class="speech-bubble">
+                <p>The famous Michael Moore is a filmmaker from Michigan, not our mystery man!</p>
+                <p>Found several New York Michael Moores: one works at Gagosian, another at Apollo Global Management...</p>
+                <p>BUT WAIT! None match our detailed personal profile! No widower with a Madrid daughter and twin granddaughters!</p>
+                <p>And where's Jack the German shepherd? Nowhere to be found! 🐕</p>
+            </div>
+            
+            <div class="evidence-container">
+                <p>🔎 <strong>EVIDENCE EXHIBIT A:</strong> 🔎</p>
+                <a href="https://en.wikipedia.org/wiki/Michael_Moore?utm_source=chatgpt.com" class="wiki-link" target="_blank">The Famous Michael Moore's Wikipedia Page</a>
+                <p class="link-caption">The most prominent Michael Moore is a filmmaker from Michigan, not a Manhattan-based businessman!</p>
+            </div>
+            
+            <div class="conclusion">
+                <p>CONCLUSION: Identity CANNOT be verified! This specific Michael Moore is likely FAKE! *KABOOM*</p>
+            </div>
+        </div>
+        
+        <div class="comic-panel">
+            <div class="panel-header">SUSPECT #3</div>
+            <h2>Kenneth Dean</h2>
+            <p><strong>Claims to be:</strong> Washington D.C. resident, VP at a real estate development and property management company</p>
+            
+            <div class="speech-bubble">
+                <p>EUREKA! S.C. Herman & Associates, Inc. is a REAL commercial real estate company in D.C.!</p>
+                <p>Found Kenneth Dean's LinkedIn profile showing him as Vice President of Administration at this company!</p>
+                <p>His profile mentions cybersecurity and project management - just as described!</p>
+                <p>The photo matches his LinkedIn profile picture! We have a match! 🎯</p>
+            </div>
+            
+            <div class="evidence-container">
+                <p>🔎 <strong>EVIDENCE EXHIBIT A:</strong> 🔎</p>
+                <a href="https://www.linkedin.com/in/kenneth-dean-pmp/" class="profile-link" target="_blank">Click to View Kenneth Dean's LinkedIn Profile</a>
+                <p class="link-caption">Kenneth Dean's LinkedIn profile confirms he works at S.C. Herman & Associates, Inc. in Washington D.C.!</p>
+            </div>
+            
+            <div class="conclusion">
+                <p>CONCLUSION: Identity VERIFIED! Kenneth Dean is REAL! *HOORAY*</p>
+            </div>
+        </div>
+        
+        <div class="final-panel">
+            <h2>Final Assessment</h2>
+            <p>After my superhero detective work: Pieter Mouthaan and Michael Moore are BUSTED as likely fakes! Kenneth Dean is the only REAL person among our suspects!</p>
+            
+            <h2>Super Important Tip!</h2>
+            <p>With the advancement of AI, creating fake identities with realistic profiles and AI-generated images is easier than ever! 🤖</p>
+            <p>Always verify credentials through multiple reliable sources before trusting unknown individuals online or professionally!</p>
+            
+            <div class="speech-bubble">
+                <p>BONUS DISCOVERY: www.linkedin.com is a CRAZY thing! I knew about LinkedIn but never really used it. Thanks to this assignment, I'll be able to create a super awesome resume for future job opportunities and make it easier for people to find me - just like I found these three individuals!</p>
+            </div>
+        </div>
+        
+        <div class="making-of">
+            <h2>How I Made This Report</h2>
+            <div class="speech-bubble">
+                <p>I started with a plain, boring text report about my identity investigation findings. But I wanted to make it FUN and EXCITING! 💥</p>
+                <p>I asked Claude, an AI assistant, to help me transform my report into a comic-book style website. Claude helped me with:</p>
+                <ul>
+                    <li>Creating a comic-inspired HTML layout with panels and speech bubbles</li>
+                    <li>Adding comic-style visual elements like the POW! burst and peanut icons</li>
+                    <li>Designing a playful color scheme with peanut butter colors and Comic Sans font</li>
+                    <li>Creating interactive buttons for evidence links</li>
+                    <li>Making sure the website was well-structured and easy to navigate</li>
+                </ul>
+                <p>I learned so much about HTML and CSS during this process! The transformation from plain text to this fun, interactive report was AMAZING! 🎉</p>
+            </div>
+            
+            <div class="evidence-container">
+                <p>🔎 <strong>SEE THE TRANSFORMATION PROCESS:</strong> 🔎</p>
+                <a href="https://claude.ai/share/4daa6265-34a4-479a-8d0f-510d6295228d" class="claude-link" target="_blank">View My Conversation with Claude</a>
+                <p class="link-caption">See how Claude helped me transform my report into this website!</p>
+            </div>
+        </div>
+        
+        <p style="text-align: center; margin-top: 30px; font-weight: bold; font-size: 1.5em;">🥜 CASE CLOSED! 🥜</p>
+    </div>
+</body>
+</html>
