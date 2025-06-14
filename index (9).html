@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apps Script Space Station</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #1a1a2e;
+            --bg-card: rgba(26, 26, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: #b8c5d6;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #ff6b35;
+            --accent-tertiary: #7b68ee;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f0f2f8;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a5568;
+            --accent-primary: #0066cc;
+            --accent-secondary: #e53e3e;
+            --accent-tertiary: #6b46c1;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Animated Background */
+        .space-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--bg-primary);
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(2px 2px at 20px 30px, white, transparent),
+                radial-gradient(2px 2px at 40px 70px, white, transparent),
+                radial-gradient(1px 1px at 90px 40px, white, transparent),
+                radial-gradient(1px 1px at 130px 80px, white, transparent),
+                radial-gradient(2px 2px at 160px 30px, white, transparent);
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            animation: twinkle 8s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--accent-primary);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-primary);
+            text-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: var(--gradient-1);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .external-btn {
+            background: var(--gradient-2);
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .external-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 8rem 2rem 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: var(--gradient-3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .author-credit {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            font-style: italic;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .author-credit:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            text-shadow: 0 0 8px var(--accent-primary);
+        }
+
+        /* Interactive Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--gradient-1);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .card-content {
+            max-height: 100px;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .card.expanded .card-content {
+            max-height: 500px;
+        }
+
+        /* Pros and Cons Section */
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .pros, .cons {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .pros {
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .cons {
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .pros h3 {
+            color: #22c55e;
+        }
+
+        .cons h3 {
+            color: #ef4444;
+        }
+
+        /* Interactive Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .spaceship-btn {
+            background: var(--gradient-3);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .spaceship-btn::before {
+            content: '🚀';
+            margin-right: 0.5rem;
+        }
+
+        .spaceship-btn:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+        }
+
+        .planet-btn {
+            background: var(--gradient-2);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .planet-btn::before {
+            content: '🪐';
+            margin-right: 0.5rem;
+        }
+
+        .planet-btn:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.4);
+        }
+
+        /* Creative Uses Grid */
+        .creative-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .creative-item {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(123, 104, 238, 0.3);
+            cursor: pointer;
+        }
+
+        .creative-item:hover {
+            transform: scale(1.05);
+            border-color: var(--accent-tertiary);
+            box-shadow: 0 10px 20px rgba(123, 104, 238, 0.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero {
+                padding: 2rem 1.5rem 3rem;
+            }
+
+            .author-credit {
+                bottom: 10px;
+                right: 15px;
+                font-size: 0.8rem;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                padding: 6rem 1rem 2rem;
+            }
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <div class="space-bg">
+        <div class="stars"></div>
+    </div>
+
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo floating">🛸 Apps Script Space Station</div>
+            <div class="nav-buttons">
+                <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Mode</button>
+                <a href="https://claude.ai/share/fd81c1a6-522a-4530-9f7a-ffa11ca66a3e" class="external-btn" target="_blank">🤖 Claude AI Chat</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero">
+            <h1 class="floating">Google Apps Script Mission Control</h1>
+            <p>Navigate through the cosmos of automation with our comprehensive guide to Google Apps Script - your gateway to streamlined productivity across the Google universe.</p>
+            <div class="author-credit">- by Sanjina</div>
+        </section>
+
+        <div class="card-grid">
+            <div class="card" onclick="toggleCard(this)">
+                <span class="card-icon">🚀</span>
+                <h3>What is Apps Script?</h3>
+                <div class="card-content">
+                    <p>Google Apps Script is a JavaScript-based programming tool that automates tasks across Google products like Docs, Sheets, and Gmail. It's your personal automation assistant in the cloud!</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="toggleCard(this)">
+                <span class="card-icon">👨‍🚀</span>
+                <h3>Who Uses It?</h3>
+                <div class="card-content">
+                    <p>From beginners to professional developers, anyone looking to streamline their Google services can benefit from Apps Script. No experience required to start your automation journey!</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="toggleCard(this)">
+                <span class="card-icon">⏰</span>
+                <h3>When to Use?</h3>
+                <div class="card-content">
+                    <p>Use Apps Script when repetitive tasks in Google apps become tedious and you wish to automate them. Perfect for saving time and reducing manual work.</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="toggleCard(this)">
+                <span class="card-icon">☁️</span>
+                <h3>Where Does It Run?</h3>
+                <div class="card-content">
+                    <p>It runs in your browser and is cloud-based, meaning no downloads are needed. Access your scripts from anywhere with an internet connection!</p>
+                </div>
+            </div>
+
+            <div class="card" onclick="toggleCard(this)">
+                <span class="card-icon">💡</span>
+                <h3>Why Use It?</h3>
+                <div class="card-content">
+                    <p>It saves time by automating repetitive tasks, increases productivity, and helps you focus on more important work while your scripts handle the routine stuff.</p>
+                </div>
+            </div>
+        </div>
+
+        <section>
+            <h2 style="text-align: center; color: var(--accent-primary); margin-bottom: 2rem; font-size: 2.5rem;">🌟 Creative Mission Applications</h2>
+            <div class="creative-grid">
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📧</div>
+                    <h4>Email Autopilot</h4>
+                    <p>Automatically sort and reply in Gmail</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📄</div>
+                    <h4>Smart Documents</h4>
+                    <p>Generate documents with data from Sheets</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+                    <h4>Form-to-Document</h4>
+                    <p>Create PDFs from form submissions</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📅</div>
+                    <h4>Calendar Guardian</h4>
+                    <p>Get alerts for overbooked days</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🎯</div>
+                    <h4>Grade Calculator</h4>
+                    <p>Automate quiz grading in Forms</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🧹</div>
+                    <h4>Data Cleanup</h4>
+                    <p>Fix and standardize spreadsheet data</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">📝</div>
+                    <h4>Meeting Minutes</h4>
+                    <p>Generate minutes after Google Meet</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">⚙️</div>
+                    <h4>Workflow Automation</h4>
+                    <p>Streamline document approvals</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🎛️</div>
+                    <h4>Custom Menus</h4>
+                    <p>Add personal commands in Google apps</p>
+                </div>
+                <div class="creative-item pulse">
+                    <div style="font-size: 2rem; margin-bottom: 1rem;">🌐</div>
+                    <h4>Translation Helper</h4>
+                    <p>Translate documents automatically</p>
+                    <a href="https://docs.google.com/document/d/1s_oD0e9aaeaGtrN32j1J0ID2te2s_sibFGvSBc4bxHU/edit?usp=sharing" class="translation-link" id="translation-helper-link" style="
+        display: inline-block;
+        background: var(--gradient-3);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        🚀 View translation demo doc
+    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="pros-cons">
+            <div class="pros">
+                <h3>✅ Mission Advantages (Pros)</h3>
+                <ul>
+                    <li>Free and easy to start</li>
+                    <li>Works within Google apps</li>
+                    <li>Quick setup with no complex infrastructure</li>
+                </ul>
+            </div>
+            <div class="cons">
+                <h3>⚠️ Mission Challenges (Cons)</h3>
+                <ul>
+                    <li>Limited for large computations</li>
+                    <li>Scripts can time out after 6 minutes</li>
+                    <li>Primarily for Google systems</li>
+                    <li>Debugging can be challenging</li>
+                    <li>Changes in Google might break scripts</li>
+                    <li>Usage limits are imposed</li>
+                    <li>Not suitable for complex apps</li>
+                </ul>
+            </div>
+        </div>
+
+        <section style="background: var(--bg-card); border-radius: 15px; padding: 2rem; margin: 3rem 0; backdrop-filter: blur(10px); border: 1px solid rgba(0, 212, 255, 0.3);">
+            <h2 style="color: var(--accent-primary); text-align: center; margin-bottom: 2rem;">🎓 Beginner Mission Briefing</h2>
+            <div style="background: rgba(0, 212, 255, 0.1); border-left: 4px solid var(--accent-primary); padding: 1rem; margin-bottom: 2rem; border-radius: 8px;">
+                <p style="font-style: italic; font-size: 1.1rem; margin: 0;">🧠 <strong>The Feynman Learning Method:</strong> "If you can't explain it simply, you don't understand it well enough." - Richard Feynman</p>
+            </div>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;"><strong>No-Code Explanation:</strong> Think of Apps Script as creating "if this, then that" rules for Google apps.</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;"><strong>Simple Example:</strong> For an expense tracker, Apps Script can automate extracting amounts from receipt emails, adding them to a spreadsheet, and marking emails as processed.</p>
+            
+            <h3 style="color: var(--accent-secondary); margin: 2rem 0 1rem;">🚀 Launch Sequence (Getting Started):</h3>
+            <ol style="font-size: 1.1rem; line-height: 1.8;">
+                <li>Find a template online</li>
+                <li>Open your Google Spreadsheet → Extensions → Apps Script</li>
+                <li>Paste the code (you can ask for code help from any AI you want)</li>
+                <li>Customize and save</li>
+                <li>Run the script to see it in action</li>
+            </ol>
+        </section>
+
+        <section style="background: var(--bg-card); border-radius: 15px; padding: 2.5rem; margin: 3rem 0; backdrop-filter: blur(10px); border: 1px solid rgba(255, 107, 53, 0.3);">
+            <h2 style="color: var(--accent-secondary); text-align: center; margin-bottom: 2rem; font-size: 2.2rem;">🎯 My Self Reflection</h2>
+            
+            <div style="background: rgba(255, 107, 53, 0.1); border-left: 4px solid var(--accent-secondary); padding: 1.5rem; margin-bottom: 2rem; border-radius: 8px;">
+                <h3 style="color: var(--accent-secondary); margin-bottom: 1rem;">🚧 The Challenge</h3>
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1rem;">Making my CCG (Custom Course Grader) work became my biggest coding nightmare. For weeks, I was trapped in a cycle of frustration, constantly tweaking and modifying the Apps Script code, hoping that one more small change would magically make everything work. Each failed attempt felt like hitting a brick wall in space.</p>
+            </div>
+
+            <div style="background: rgba(0, 212, 255, 0.1); border-left: 4px solid var(--accent-primary); padding: 1.5rem; margin-bottom: 2rem; border-radius: 8px;">
+                <h3 style="color: var(--accent-primary); margin-bottom: 1rem;">💡 The Breakthrough Moment</h3>
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1rem;">When I finally reached out to my professor in desperation, his advice was surprisingly simple yet profound: <em>"Start over completely. Since you've changed the code so many times, there might be underlying problems that are impossible to trace."</em></p>
+                <p style="font-size: 1.1rem; line-height: 1.7;">That suggestion gave me a wave of relief I didn't expect. Sometimes the bravest thing you can do is admit defeat and begin fresh.</p>
+            </div>
+
+            <div style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22c55e; padding: 1.5rem; margin-bottom: 2rem; border-radius: 8px;">
+                <h3 style="color: #22c55e; margin-bottom: 1rem;">🌟 The Victory</h3>
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1rem;">Creating a completely new spreadsheet and rebuilding everything from scratch was like launching a new mission to Mars. This time, with cleaner code and a fresh perspective, the Apps Script started working beautifully. The relief was overwhelming!</p>
+            </div>
+
+            <div style="background: rgba(123, 104, 238, 0.1); border-left: 4px solid var(--accent-tertiary); padding: 1.5rem; border-radius: 8px;">
+                <h3 style="color: var(--accent-tertiary); margin-bottom: 1rem;">🎓 The Learning</h3>
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1rem;">This assignment took me the longest to complete, but I can honestly say I learned the most from it. The weeks of stress and frustration taught me valuable lessons about persistence, the importance of clean code, and when to know it's time for a fresh start. I was over the moon when my CCG actually worked and I got it displayed on my github site just the way I wanted.</p>
+            </div>
+        </section>
+
+        <div class="action-buttons">
+            <a href="https://docs.google.com/spreadsheets/d/1OL4DnIXdysIPiGXB6oSc4jsIaPjlQSYsRPBJwhvB-B8/edit?usp=drive_link" class="spaceship-btn">My Grade Sheet</a>
+            <a href="https://ssmoon-debug.github.io/ssassignments/" class="planet-btn" target="_blank">CCG on my landing page</a>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+        }
+
+        function toggleCard(card) {
+            card.classList.toggle('expanded');
+        }
+
+        // Add floating animation to random elements
+        function addFloatingAnimation() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                if (index % 2 === 0) {
+                    card.style.animationDelay = `${index * 0.5}s`;
+                    card.classList.add('floating');
+                }
+            });
+        }
+
+        // Initialize animations when page loads
+        window.addEventListener('load', () => {
+            addFloatingAnimation();
+        });
+
+        // Add particle effect on click
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('spaceship-btn') || e.target.classList.contains('planet-btn')) {
+                createParticles(e.clientX, e.clientY);
+            }
+        });
+
+        function createParticles(x, y) {
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'fixed';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.width = '4px';
+                particle.style.height = '4px';
+                particle.style.background = '#00d4ff';
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '9999';
+                
+                document.body.appendChild(particle);
+                
+                const angle = (Math.PI * 2 * i) / 10;
+                const velocity = 100;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let opacity = 1;
+                let posX = x;
+                let posY = y;
+                
+                const animate = () => {
+                    opacity -= 0.02;
+                    posX += vx * 0.02;
+                    posY += vy * 0.02;
+                    
+                    particle.style.left = posX + 'px';
+                    particle.style.top = posY + 'px';
+                    particle.style.opacity = opacity;
+                    
+                    if (opacity > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        document.body.removeChild(particle);
+                    }
+                };
+                
+                requestAnimationFrame(animate);
+            }
+        }
+    </script>
+</body>
+</html>
