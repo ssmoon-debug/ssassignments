@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLI Dungeon Crawl Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap');
+        
+        :root {
+            --primary: #FFD966; /* Peanut color */
+            --secondary: #D6A03C; /* Darker peanut */
+            --accent: #FF5252; /* Comic book red */
+            --dark: #333;
+            --light: #FFF8E1; /* Light peanut shade */
+            --paper: #FFF8DC; /* Comic paper background */
+            --box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        body {
+            font-family: 'Comic Neue', cursive;
+            background-color: var(--paper);
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--primary);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 3.5rem;
+            margin: 0;
+            color: var(--dark);
+            text-shadow: 3px 3px 0 var(--light);
+            letter-spacing: 2px;
+            transform: rotate(-1deg);
+        }
+        
+        .student-info {
+            font-family: 'Comic Neue', cursive;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: var(--dark);
+        }
+        
+        .comic-section {
+            background-color: white;
+            border: 3px solid var(--dark);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .comic-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0) 60%, rgba(255,217,102,0.2) 100%);
+            pointer-events: none;
+        }
+        
+        .section-title {
+            font-family: 'Bangers', cursive;
+            background-color: var(--accent);
+            color: white;
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: -35px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            box-shadow: var(--box-shadow);
+            transform: rotate(-2deg);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-content {
+            padding: 10px;
+        }
+        
+        .code-block {
+            background-color: #f5f5f5;
+            border-left: 4px solid var(--accent);
+            padding: 10px 15px;
+            margin: 15px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            border-radius: 5px;
+        }
+        
+        .map-container {
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 10px;
+            overflow-x: auto;
+            font-family: monospace;
+            white-space: pre;
+            line-height: 1.2;
+            border: 2px dashed var(--secondary);
+            color: #8B4513; /* Brown text for the map */
+            position: relative;
+        }
+        
+        .map-container::after {
+            content: '🥜';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 24px;
+        }
+        
+        .dungeon-location {
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .dungeon-path {
+            color: var(--secondary);
+        }
+        
+        .dungeon-treasure {
+            color: #FFD700; /* Gold color */
+            font-weight: bold;
+            background-color: rgba(255, 215, 0, 0.2);
+            padding: 0 3px;
+        }
+        
+        .emoji-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .feature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .feature-table th, .feature-table td {
+            border: 2px solid var(--secondary);
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .feature-table th {
+            background-color: var(--primary);
+            font-family: 'Bangers', cursive;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary);
+            margin-top: 30px;
+            border-top: 5px solid var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+        
+        .caption-bubble {
+            position: absolute;
+            background-color: white;
+            border: 2px solid var(--dark);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bangers', cursive;
+            transform: rotate(15deg);
+            box-shadow: var(--box-shadow);
+            font-size: 1.2rem;
+            color: var(--accent);
+            top: -20px;
+            right: 30px;
+            z-index: 2;
+        }
+        
+        .caption-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-right: 2px solid var(--dark);
+            border-bottom: 2px solid var(--dark);
+            transform: rotate(45deg);
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        a:hover {
+            color: var(--secondary);
+            text-decoration: underline;
+        }
+        
+        a:hover::after {
+            content: '🥜';
+            position: absolute;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+        
+        .peanut-map {
+            background-color: var(--light);
+            border: 3px solid var(--secondary);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .caption-bubble {
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CLI Dungeon Crawl Report</h1>
+        <div class="student-info">Sanjina - 2417503</div>
+        <div class="caption-bubble">POW!</div>
+    </header>
+    
+    <div class="container">
+        <div class="comic-section">
+            <div class="section-title">Where I Got Stuck</div>
+            <div class="section-content">
+                <p>The first big wall I hit during the Dungeon Crawl was when I reached the InnerKeep and found a locked door mentioned in GreatHall.info. I had explored a bunch of directories already and felt like I had checked everything. I even tried renaming the README.md to see if that triggered anything, but it was read-only, and my attempts failed with errors like:</p>
+                
+                <div class="code-block">C:\> rename README.md ssmoon
+Cannot rename: README.md is read-only.</div>
+                
+                <p>What really tripped me up, though, was the fact that I didn't fully explore all the files and directories. I gave myself a massive headache by assuming I had seen it all when I really hadn't. I missed hidden areas like SidePath and StorageRoom, which held the key to moving forward. I ended up being stuck in the same place for days, and to make it worse, I even passed the assignment deadline before I realized what I had missed. I kept thinking the answer was more complex than it was—but I just hadn't looked carefully enough.</p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">How I Finally Understood the Assignment</div>
+            <div class="section-content">
+                <p>The breakthrough moment came thanks to my friend Diyora, who was stuck in the same spot, but she figured it out first and gave me a crucial hint—use dir /A in every folder. Once I followed that advice, I found the hidden path SidePath, and eventually StorageRoom, which contained the StoneKey.key. She also gave me a hint to use the move command.</p>
+                
+                <p>From there, I used the move command to bring the key to the InnerKeep, and boom—the locked door opened. That led to the final stretch of the game, where things got intense.</p>
+                
+                <div class="code-block">C:\EntranceGrounds\OuterWalls\InnerKeep\> move C:\EntranceGrounds\OuterWalls\StorageRoom\StoneKey.key C:\EntranceGrounds\OuterWalls\InnerKeep\
+Moved C:\EntranceGrounds\OuterWalls\StorageRoom\StoneKey.key to C:\EntranceGrounds\OuterWalls\InnerKeep\
+
+The Stone Key glows brightly as you place it in the Inner Keep. The massive locked door slowly swings open!</div>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">The Final Discovery</div>
+            <div class="section-content">
+                <p>From there, I accessed the ForbiddenLibrary, used attrib -elim to destroy a cursed book, and finally reached the ReadingChamber, where I found the treasure:</p>
+                
+                <div class="code-block">C:\EntranceGrounds\OuterWalls\InnerKeep\OpenedDoor\ForbiddenLibrary\ReadingChamber\> type Treasure.txt
+You have discovered the ASCII Chalice! Follow this link to claim your reward: https://your_teacher_s_site/treasure.html</div>
+                
+                <p>That moment was pure magic. I was the happiest this moment hahahahhaha.</p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">CLI Dungeon Map</div>
+            <div class="section-content">
+                <div class="peanut-map">
+                    <div class="map-container"> 
+           
+               [Entrance Grounds]
+           ┌────────────┼──────────────┐
+           ▼            ▼              ▼
+     [Side Path]   [Outer Walls]   [Gatehouse]
+                         
+        ┌────────────────┼────────────────┐
+        ▼                ▼                ▼
+[Crumbling Tower]  [Storage Room]    [Inner Keep]
+                                          │
+                                          ▼
+                              ┬─────────────────┬──────────────────────┬
+                              ▼                 ▼                      ▼
+                        [Old Records]       [Stone Key]            [Opened Door]
+                          (moved from Storage room)  
+                                                                               │        
+                                                                       ▼
+                                                                [Forbidden Library]
+                                                                       │
+                                                                       ▼
+                                                                [Reading Chamber]
+                                                                       │
+                                                                       ▼
+                                                                  [Treasure!]
+                   </div>
+                
+                <p>Treasure Link: <a href="https://josuedean.github.io/ibm/treasure.html" target="_blank">https://josuedean.github.io/ibm/treasure.html</a></p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">Further Research I Had to Do</div>
+            <div class="section-content">
+                <p class="emoji-heading">🔍 I looked up how to use the attrib command properly, especially the special -elim flag used to destroy cursed objects like CursedBook.tome.</p>
+                
+                <p class="emoji-heading">🔍 I double-checked syntax for commands like rename, move, and findstr, because errors were super easy to make (especially with case sensitivity).</p>
+                
+                <p class="emoji-heading">🔍 I reviewed how to remove read-only attributes from files using attrib -r.</p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            
+    <div class="section-title">Where I Found Help</div>
+    <div class="section-content">
+        <p class="emoji-heading">🧭 ChatGPT, of course</p>
+        <p><a href="https://chatgpt.com/share/67fbadc4-dcb0-8006-8831-ca30402106ac" target="_blank">https://chatgpt.com/share/67fbadc4-dcb0-8006-8831-ca30402106ac</a> (how i spent most of my time trying to get to the end of it)</p>
+        
+        <p class="emoji-heading">🧭 How I transformed my Google Doc written report into this interactive website</p>
+        <p><a href="https://claude.ai/share/076a9898-c83a-4c33-880e-6fb5378e2def" target="_blank">https://claude.ai/share/076a9898-c83a-4c33-880e-6fb5378e2def</a> (helped me design and structure my CLI dungeon crawl report)</p>
+                <p class="emoji-heading">🧭 And most importantly, my friend Diyora, who got to the clue first and helped guide me when I was completely stuck</p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">Things I Learned</div>
+            <div class="section-content">
+                <p class="emoji-heading">🌟 dir /A reveals hidden files and directories, and you must use it to make real progress in the game.</p>
+                
+                <p class="emoji-heading">🌟 Tab auto-completion does not work for hidden paths—so if you're relying on it too much, you're going to miss things.</p>
+                
+                <p class="emoji-heading">🌟 File attributes like "read-only" can stop you from renaming or deleting files unless you change them first with attrib.</p>
+                
+                <p class="emoji-heading">🌟 Every directory matters—don't assume a folder is empty just because dir looks that way. Always explore thoroughly.</p>
+                
+                <p class="emoji-heading">🌟 CLI commands are case sensitive in this environment, so you have to type file and folder names exactly.</p>
+                
+                <p class="emoji-heading">🌟 The tree command is super helpful when you're lost and want a visual map of where you've been.</p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">Overall Experience</div>
+            <div class="section-content">
+                <p>I genuinely enjoyed the Dungeon Crawl assignment—once I stopped being mad at myself for missing such an obvious clue. It turned into a puzzle-solving adventure that tested my command line skills and attention to detail. I appreciated how it made me think critically and experiment with different commands. Plus, it was way more fun than your average assignment.</p>
+                
+                <p>I always say this but why not again. Professor, you always encourage us to think deeply and teach us what we really need to know, and I appreciate that. You give us suggestions to use AI but at the same time your assignments are never something that only AI alone can complete it for us. It really makes us think hard to get to the end of it. I always wonder How does your mind work.</p>
+                
+                <p>Shoutout again to Diyora for saving my sanity.</p>
+                
+                <p>Would definitely play another CLI game like this, but next time, I'm using dir /A everywhere from the start.</p>
+            </div>
+        </div>
+        
+        <div class="comic-section">
+            <div class="section-title">Bonus Feature Ideas</div>
+            <div class="section-content">
+                <table class="feature-table">
+                    <tr>
+                        <th>Feature</th>
+                        <th>Concept</th>
+                    </tr>
+                    <tr>
+                        <td>read command</td>
+                        <td>Extracts hidden magical runes in text (e.g., characters you'd otherwise miss with type)</td>
+                    </tr>
+                    <tr>
+                        <td>Room-specific color schemes</td>
+                        <td>Each directory changes terminal color to signal atmosphere (use color!)</td>
+                    </tr>
+                    <tr>
+                        <td>Day/Night cycles</td>
+                        <td>Some paths only open during "night mode" (simulated by timed triggers)</td>
+                    </tr>
+                    <tr>
+                        <td>Terminal ghosts</td>
+                        <td>Random messages appear if you linger too long in certain folders 😨</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        CLI Dungeon Crawl Report - a very good end to my weeks of headache<br>
+        (also weeks of learning new things that I didn't even knew existed)<br>
+        THANK YOU PROFESSOR
+    </footer>
+</body>
+</html>
