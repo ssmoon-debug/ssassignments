@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography Project Documentation</title>
+    <style>
+        :root {
+            --primary-color: #04d9ff;
+            --secondary-color: #ff2a6d;
+            --background-color: #1a1a2e;
+            --text-color: #d1d7e0;
+            --section-bg: #0f3460;
+            --header-bg: #16213e;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: var(--header-bg);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 30px;
+        }
+        
+        h4 {
+            color: var(--primary-color);
+            margin-top: 20px;
+        }
+        
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .section {
+            background-color: var(--section-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #2e4057;
+        }
+        
+        th {
+            background-color: #16213e;
+            color: var(--primary-color);
+        }
+        
+        tr {
+            background-color: #1a1a2e;
+        }
+        
+        tr:hover {
+            background-color: #2e4057;
+        }
+        
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        ul li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        ul li::before {
+            content: "•";
+            color: var(--primary-color);
+            display: inline-block;
+            width: 1em;
+            position: absolute;
+            left: 0;
+        }
+        
+        .checkmark {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkmark::before {
+            content: "✅";
+            margin-right: 10px;
+        }
+        
+        .glow {
+            /* Removed glow effect */
+        }
+        
+        .highlight {
+            color: var(--secondary-color);
+            font-weight: bold;
+        }
+        
+        .team-info {
+            background-color: #16213e;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background-color: var(--header-bg);
+            border-top: 3px solid var(--primary-color);
+        }
+        
+        /* Removing neon effect for headers */
+        .neon {
+            color: #fff;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            table {
+                font-size: 0.9rem;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+        
+        /* Stars animation */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 5s infinite;
+        }
+        
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Stars background -->
+    <div class="stars" id="stars"></div>
+    
+    <header>
+        <h1 class="neon"><span class="emoji">🛠️</span> Cryptography Project Documentation</h1>
+    </header>
+    
+    <div class="container">
+        <div class="section">
+            <div class="section-header">
+                <h2>1. Team Formation and Planning (Required)</h2>
+            </div>
+            
+            <div class="team-info">
+                <ul>
+                    <li><span class="highlight">Team Name:</span> GG</li>
+                    <li><span class="highlight">Date Formed:</span> April 20, 2025</li>
+                    <li><span class="highlight">Our website tool:</span> <a href="https://ssmoon-debug.github.io/GGCryptographytool/" target="_blank">https://ssmoon-debug.github.io/GGCryptographytool/</a></li>
+                </ul>
+            </div>
+            
+            <h3>Team Members and Roles</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Responsibilities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Zhaniya<br>2417691</td>
+                        <td>Designer, Documentor</td>
+                        <td>Design interface, documenting</td>
+                    </tr>
+                    <tr>
+                        <td>Sarju<br>2417701</td>
+                        <td>Project Coordinator/Tester</td>
+                        <td>Testing functionality, coordinating</td>
+                    </tr>
+                    <tr>
+                        <td>Sanjina<br>2417503</td>
+                        <td>Algorithm Developer</td>
+                        <td>Implementation of core cryptographic algorithms, improvements of website</td>
+                    </tr>
+                    <tr>
+                        <td>Khadicha<br>2417758</td>
+                        <td>Developer</td>
+                        <td>framework setup, integration</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>2. Research Algorithms (Required)</h2>
+            </div>
+            
+            <h3>Documented Cryptographic Algorithms</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Algorithm Name</th>
+                        <th>Type (Simple/Intermediate/Advanced)</th>
+                        <th>Potential Use Cases / Internet Applications</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Caesar Cipher</td>
+                        <td>Simple</td>
+                        <td>Educational demonstrations, basic text obfuscation</td>
+                    </tr>
+                    <tr>
+                        <td>Atbash Cipher</td>
+                        <td>Simple</td>
+                        <td>Educational demonstrations, basic text obfuscation</td>
+                    </tr>
+                    <tr>
+                        <td>Vigenère Cipher</td>
+                        <td>Intermediate</td>
+                        <td>Learning tool for polyalphabetic substitution, historical context</td>
+                    </tr>
+                    <tr>
+                        <td>XOR Cipher</td>
+                        <td>Intermediate</td>
+                        <td>Basic data encryption, stream ciphers</td>
+                    </tr>
+                    <tr>
+                        <td>Simplified AES</td>
+                        <td>Advanced</td>
+                        <td>File encryption, secure messaging, banking applications</td>
+                    </tr>
+                    <tr>
+                        <td>Simplified RSA</td>
+                        <td>Advanced</td>
+                        <td>Secure data transmission, digital signatures, e-commerce</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>3. Algorithm Selection & Implementation (Required)</h2>
+            </div>
+            
+            <h3>Documented Algorithm Selection Rationale</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Algorithm Name</th>
+                        <th>Type</th>
+                        <th>Rationale for Selection</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Caesar Cipher</td>
+                        <td>Simple</td>
+                        <td>Entry-level algorithm to demonstrate basic principles of substitution ciphers; educational value</td>
+                    </tr>
+                    <tr>
+                        <td>Atbash Cipher</td>
+                        <td>Simple</td>
+                        <td>Entry-level algorithm to demonstrate basic principles of substitution ciphers; educational value</td>
+                    </tr>
+                    <tr>
+                        <td>Vigenère Cipher</td>
+                        <td>Intermediate</td>
+                        <td>Shows evolution beyond simple ciphers with multiple shift values; historically significant</td>
+                    </tr>
+                    <tr>
+                        <td>XOR Cipher</td>
+                        <td>Intermediate</td>
+                        <td>Demonstrates binary operations in cryptography; foundation for many stream ciphers</td>
+                    </tr>
+                    <tr>
+                        <td>Simplified AES</td>
+                        <td>Advanced</td>
+                        <td>Industry standard symmetric encryption; demonstrates modern security principles in accessible format</td>
+                    </tr>
+                    <tr>
+                        <td>Simplified RSA</td>
+                        <td>Advanced</td>
+                        <td>Foundational public-key algorithm; demonstrates asymmetric encryption concepts and mathematical foundations</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>4. Testing & Iteration (First Round) (Required)</h2>
+            </div>
+            
+            <h3>Documented Red-Teaming (First Round)</h3>
+            <ul>
+                <li><span class="highlight">Teams Who Red-Teamed Your Site:</span>
+                    <ul>
+                        <li>Team 1: Cookies</li>
+                        <li>Team 2: 101 Team</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Feedback Received:</h3>
+            
+            <h4>1. Team - Cookies</h4>
+            <div class="team-info">
+                <p><strong class="highlight">Feedback</strong></p>
+                <p><strong>Good parts</strong></p>
+                <ul>
+                    <li>overall everything is great</li>
+                    <li>working very well</li>
+                    <li>easy to understand</li>
+                    <li>easy to use, convenient</li>
+                </ul>
+                <p>Everything looks great, we would just suggest to add theme option (light/dark or any other colors would be interested)</p>
+                <p>Firstly because some people are more used to lighter theme and their eyes are not used to the dark one (especially Diana)</p>
+                <p>Secondly because it would suit your website theme</p>
+            </div>
+            
+            <h4>2. Team - 101 Team</h4>
+            <div class="team-info">
+                <p><strong class="highlight">Reviewed by the 101 Team</strong></p>
+                <p>Here's our feedback after a detailed review and design inspection:</p>
+                <p><strong>What We Liked</strong></p>
+                <ul>
+                    <li>Modern, futuristic look – the glowing neon header fits the theme well.</li>
+                    <li>Functional and smooth – all encryption and decryption tools work without bugs.</li>
+                    <li>Clear structure – algorithm selection, input, and output areas are logically placed.</li>
+                    <li>Consistent UI – the dark mode with cyan buttons and white text creates a clean, professional vibe.</li>
+                    <li>Bonus features like file upload and result download are useful additions.</li>
+                    <li>Excellent logic behind the cipher implementations – especially Caesar, XOR, Atbash, and Vigenère.</li>
+                </ul>
+                <p><strong>Suggested Improvement</strong></p>
+                <p>Visual spacing and hierarchy need refinement:</p>
+                <p>Currently, all elements are tightly packed together vertically. Increasing padding between sections (especially between input boxes, buttons, and output) would make the interface more breathable and visually organized. This would enhance usability and reduce cognitive load for users.</p>
+            </div>
+            
+            <h3>Changes/Improvements Made:</h3>
+            <ul>
+                <li>Changed interface colors to look better together</li>
+                <li>Added sky blue buttons and a lighter color palette</li>
+                <li>Implemented a light/dark mode toggle so users can choose their preferred theme</li>
+                <li>Added more space between sections (input areas, buttons, and results)</li>
+                <li>Increased padding around elements to create a more "breathable" layout</li>
+                <li>Grouped related items together visually to improve organization</li>
+                <li>Made headings larger and more distinct to better show the page structure</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>5. Creative Enhancements (Required)</h2>
+            </div>
+            
+            <h3>Documented Creative Enhancements</h3>
+            <ul>
+                <li><span class="highlight">Selected Enhancements:</span>
+                    <ul>
+                        <li>Added blinking/shining stars when users encrypt or decrypt text</li>
+                        <li>Added neon-style text to make encrypted results look better</li>
+                        <li>Added user history activities</li>
+                        <li>Implemented a light/dark mode toggle so users can choose their preferred theme</li>
+                        <li>Implemented algorithm info, quiz mode and tips and best practices mode</li>
+                    </ul>
+                </li>
+                <li><span class="highlight">Issues Encountered:</span>
+                    <ul>
+                        <li>Star animations didn't work correctly when encryption was running</li>
+                        <li>The encrypted text didn't change even when users picked different methods</li>
+                        <li>Some encryption algorithms were not producing unique results</li>
+                        <li>Algorithm information did not appear at first</li>
+                        <li>Quiz mode was not showing the questions to answer</li>
+                    </ul>
+                </li>
+                <li><span class="highlight">Final Decisions/Solutions:</span>
+                    <ul>
+                        <li>Tested each encryption algorithm at least 5 times to fix the output problems</li>
+                        <li>Fixed the code so each encryption method gives different results</li>
+                        <li>Made sure the visual effects works correctly</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>6. Testing & Iteration (After Enhancements) (Required)</h2>
+            </div>
+            
+            <h3>Documented Red-Teaming (Second Round)</h3>
+            <ul>
+                <li><span class="highlight">Teams Who Red-Teamed Your Enhanced Site:</span>
+                    <ul>
+                        <li>Team 1: Cookies</li>
+                        <li>Team 2: 101 Team</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <h3>Feedback Received:</h3>
+            
+            <h4>Team 1 - Cookies</h4>
+            <div class="team-info">
+                <p><strong class="highlight">Feedback 2</strong></p>
+                <p>After updating tool GG made the best version of it in our opinion. Everything is still working well, which is great and we adore it. The light theme was game changing for us.</p>
+                <p>The tool now is even more convenient. And also adding history record is a nice feature and very useful (especially unpredictable moments)</p>
+                <p>Cookies verdict: no more changes!</p>
+            </div>
+            
+            <h4>Team 2 - 101</h4>
+            <div class="team-info">
+                <p>Waiting for reply</p>
+            </div>
+            
+            <h3>Further Refinements Made:</h3>
+            <p>Added a user activities history</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>7. Documentation & Reflection (Required)</h2>
+            </div>
+            
+            <h3>Project Step Summaries</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Summary of What Was Done</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1. Team Formation and Planning</td>
+                        <td>Formed team GG on April 20, 2025. Assigned roles: Zhaniya (Designer/Documentor), Sarju (Project Coordinator/Tester), Sanjina (Algorithm Developer), and Khadicha (Developer)</td>
+                    </tr>
+                    <tr>
+                        <td>2. Research Algorithms</td>
+                        <td>Researched and documented 6 cryptographic algorithms: 2 simple (Caesar Cipher, Atbash Cipher), 2 intermediate (Vigenère Cipher, XOR Cipher), and 2 advanced (Simplified AES, Simplified RSA)</td>
+                    </tr>
+                    <tr>
+                        <td>3. Algorithm Selection & Implementation</td>
+                        <td>Selected all 6 researched algorithms based on educational value and demonstration of cryptographic principles. Implemented them on a static website</td>
+                    </tr>
+                    <tr>
+                        <td>4. Testing & Iteration (First Round)</td>
+                        <td>Conducted red-team testing with Team Cookies. Received feedback and made necessary improvements</td>
+                    </tr>
+                    <tr>
+                        <td>5. Creative Enhancements</td>
+                        <td>Added visual effects (blinking stars, neon text) to improve user experience. Fixed algorithm output issues to ensure each encryption method produced unique results</td>
+                    </tr>
+                    <tr>
+                        <td>6. Testing & Iteration (After Enhancements)</td>
+                        <td>Conducted second round of testing after implementing enhancements</td>
+                    </tr>
+                    <tr>
+                        <td>7. Documentation & Reflection</td>
+                        <td>Completed project documentation including team contributions, process steps, and individual reflections</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Individual Team Member Reflections</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Member</th>
+                        <th>Contribution</th>
+                        <th>Learning/Challenges</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Zhaniya<br>2417691</td>
+                        <td>Made the bone structure of the website, documented every step of the project</td>
+                        <td>Learned how to effectively document a technical project. Challenged by balancing design needs with functional requirements</td>
+                    </tr>
+                    <tr>
+                        <td>Sanjina<br>2417503</td>
+                        <td>Implemented the core cryptographic algorithms, fixed any issues encountered, made improvements</td>
+                        <td>Learned in-depth about various encryption methods. Challenged by ensuring each algorithm produced correctly differentiated outputs</td>
+                    </tr>
+                    <tr>
+                        <td>Sarju<br>2417701</td>
+                        <td>Coordinated the process, did research about algorithms</td>
+                        <td>Learned project management skills and cryptographic theory. Challenged by coordinating team efforts and ensuring testing was thorough</td>
+                    </tr>
+                    <tr>
+                        <td>Khadicha<br>2417758</td>
+                        <td>Gave feedback to other teams, tested tools, collaborated with teams</td>
+                        <td>Learned testing methodologies for security tools. Challenged by identifying problems in the algorithm implementation</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="team-info">
+                <p>We were having hard time to understand why the results were same for two algorithms Atbash Cipher and XQR Cipher later we found out these two algorithms gives us the same result in both encryption and decryption. Then other algorithms were working just fine.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-header">
+                <h2>Deliverables Checklist</h2>
+            </div>
+            <ul class="deliverables-list">
+                <li>
+                    <span class="checkmark-icon">✅</span>
+                    <span class="deliverable-text">Cryptography Site Tool linked on each team member's portfolio site (3 pts)</span>
+                </li>
+                <li>
+                    <span class="checkmark-icon">✅</span>
+                    <span class="deliverable-text">Documentation and Reflections linked on each team member's portfolio site (7 pts)</span>
+                </li>
+            </ul>
+        </div>
+        
+        <style>
+            .deliverables-list li {
+                display: flex;
+                align-items: flex-start;
+                margin-bottom: 15px;
+                padding-left: 0;
+            }
+            
+            .deliverables-list li::before {
+                content: none;
+            }
+            
+            .checkmark-icon {
+                margin-right: 15px;
+                flex-shrink: 0;
+            }
+            
+            .deliverable-text {
+                flex-grow: 1;
+            }
+        </style>
+    </div>
+    
+    <footer>
+        <p>Team GG © 2025 | Cryptography Project Documentation</p>
+    </footer>
+    
+    <script>
+        // Create stars for background
+        document.addEventListener('DOMContentLoaded', function() {
+            const starsContainer = document.getElementById('stars');
+            const numStars = 100;
+            
+            for (let i = 0; i < numStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Random size
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random animation delay
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        });
+    </script>
+</body>
+</html>
