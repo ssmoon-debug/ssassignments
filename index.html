@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy XI Builder - Project Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header-content {
+            text-align: center;
+            color: white;
+        }
+
+        .header-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .header-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .author-tag {
+            position: absolute;
+            bottom: 1rem;
+            right: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.8rem;
+            font-weight: 300;
+        }
+
+        /* Navigation Boxes */
+        .nav-section {
+            margin: 2rem 0;
+        }
+
+        .nav-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 1.2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .nav-box:hover::before {
+            left: 100%;
+        }
+
+        .nav-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .nav-box h3 {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-box p {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-box .icon {
+            font-size: 1.3rem;
+        }
+
+        .links-container {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+
+        .links-container.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .link-item {
+            display: block;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .link-item:hover {
+            background: #e9ecef;
+            border-left-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        /* Content Section */
+        .content-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .content-section h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
+        .content-section h3 {
+            color: #555;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.3rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .quote {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid #667eea;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: #555;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content h1 {
+                font-size: 2rem;
+            }
+            
+            .author-tag {
+                right: 1rem;
+                font-size: 0.7rem;
+            }
+            
+            .nav-boxes {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .content-section {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>Fantasy XI Builder</h1>
+                <p>From Heartbreak to Innovation - A Journey of Passion, Code, and Football</p>
+            </div>
+            <div class="author-tag">- BY SANJINA</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav-section">
+            <div class="nav-boxes">
+                <div class="nav-box" onclick="toggleLinks('prd')">
+                    <h3><span class="icon">📋</span> PRD</h3>
+                    <div class="links-container" id="prd-links">
+                        <div id="prd-links-list">
+                            <!-- Links will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-box" onclick="toggleLinks('fantasy')">
+                    <h3><span class="icon">⚽</span> Fantasy XI Builder</h3>
+                    <div class="links-container" id="fantasy-links">
+                        <div id="fantasy-links-list">
+                            <!-- Links will be added here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-box" onclick="toggleLinks('ai')">
+                    <h3><span class="icon">🤖</span> AI Chats</h3>
+                    <div class="links-container" id="ai-links">
+                        <div id="ai-links-list">
+                            <a href="https://chatgpt.com/share/682ac5d7-55ac-8006-bbbb-ab502796c374" class="link-item">Chat 1 - Initial Start</a>
+                            <a href="https://claude.ai/share/455c7bba-da7c-45b6-b515-5c548878b3d4">Chat 2 - Trying out some ideas</a>
+                            <a href="https://claude.ai/share/979eae28-ec09-49c4-ac55-9f830a8791d3" class="link-item">Chat 3 - Final site</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Project Fantasy XI Builder: From Heartbreak to Innovation</h2>
+            
+            <h3>The Spark of Inspiration</h3>
+            <p>My journey into building the Fantasy XI Builder began with Barcelona's devastating UEFA Champions League semi-final loss. As a passionate football fan, this heartbreak sparked a deeper interest in team formations and player selections. I found myself thinking about "what if" scenarios and different tactical approaches, which led to the idea of creating an interactive tool where football enthusiasts could experiment with their dream lineups. What if I could create my own perfect team, free from the real-world heartbreaks? This project became a personal outlet, a way to visualize my ideal lineup, even if it was just in code..</p>
+
+            <h2>The Development Journey</h2>
+            
+            <h3>Week One: The Struggle Phase</h3>
+            <p>There were days, especially early on, where I felt utterly stuck. The sheer amount of CSS for responsive layouts, getting the JavaScript to dynamically manage players and stats – it felt overwhelming.</p>
+
+            <h3>Professor's Wisdom: The Espresso Shot Philosophy</h3>
+            <p>It was during one of these low points, after what felt like a week of struggling in isolation, that Professor shared a powerful thought in our group chat::</p>
+            
+            <div class="quote">
+                "This project is like a good espresso shot—small, strong, and likely to keep you buzzing with ideas for what's next. This should be true of everyone's project."
+            </div>
+
+            <p>This analogy perfectly encapsulated what I wanted to achieve. I didn't need to build the next FIFA or Football Manager - I needed to create something focused, impactful, and genuinely useful by enjoying the process. Something that would serve as a foundation for bigger ideas while being complete and functional on its own.</p>
+            
+            <h3>The Breakthrough Moment</h3>
+            <p>After a week of struggling, everything suddenly started to click. It's difficult to pinpoint exactly what changed, but I believe it was a combination of persistence, learning curve adaptation, and taking a simplified approach by breaking down complex problems into smaller, manageable pieces.</p>
+ 
+            <h2>Technical Challenges and Solutions</h2>
+            <h3>The Lineup Card Image Sharing Problem</h3>
+            <p>One of the most significant technical challenges I encountered was enabling users to share their lineup cards as images rather than just displaying them on screen. This seemed like it should be straightforward, but implementing proper image generation and sharing functionality proved to be quite complex.</p>
+
+            <h3>Professor to the Rescue</h3>
+            <p>Once again, our professor came to my rescue at the perfect moment. Not only did he understand the specific challenge I was facing, but he went above and beyond by sending me a direct link to a GPT chat conversation that explained exactly how to implement image generation and sharing for lineup cards.</p>
+
+            <h2>Personal Impact and Reflection</h2>
+            
+            <h3>Healing Through Creation</h3>
+            <p>One of the most unexpected benefits of this project was how it helped me process and move past Barcelona's Champions League semi-final loss. Channeling my football passion into creating something constructive transformed negative energy into positive output.</p>
+
+            <p>The Fantasy XI Builder perfectly embodies the professor's espresso shot philosophy - focused, functional, and inspiring future innovations. What started as a way to cope with football disappointment became a meaningful project that combined personal passion with technical growth.</p>
+        </div>
+    </div>
+
+    <script>
+        // Store links data
+        let linksData = {
+            prd: [{ name: "Fantasy XI Builder PRD Document", url: "https://docs.google.com/document/d/1aJyPFwUM8_YbygfMz2Odk2_GW7rlwFMo-Q4JMlHlo74/edit?usp=sharing" }
+        ],
+            fantasy: [{ name: "Fantasy XI Builder Application", url: "#" } // **IMPORTANT: Replace with your actual URL**
+        ],
+            ai: [
+                { name: "Chat 1 - Initial Start", url: "https://chatgpt.com/share/682ac5d7-55ac-8006-bbbb-ab502796c374" },
+                { name: "Chat 2 - Trying out some ideas", url: "https://claude.ai/share/455c7bba-da7c-45b6-b515-5c548878b3d4" },
+                { name: "Chat 3 - Final Site", url: "https://claude.ai/share/979eae28-ec09-49c4-ac55-9f830a8791d3" },
+            ]
+        };
+
+        function toggleLinks(section) {
+            const linksContainer = document.getElementById(section + '-links');
+            linksContainer.classList.toggle('active');
+        }
+
+        function addLink(section) {
+            // Hidden for production - add links directly in code
+        }
+
+        function renderLinks(section) {
+            const linksList = document.getElementById(section + '-links-list');
+            linksList.innerHTML = '';
+            
+            linksData[section].forEach((link, index) => {
+                const linkElement = document.createElement('a');
+                linkElement.href = link.url;
+                linkElement.className = 'link-item';
+                linkElement.textContent = link.name;
+                linkElement.target = '_blank';
+                linkElement.rel = 'noopener noreferrer';
+                
+                linksList.appendChild(linkElement);
+            });
+        }
+
+        // Initialize link lists
+        renderLinks('prd');
+        renderLinks('fantasy');
+        renderLinks('ai');
+    </script>
+</body>
+</html>
